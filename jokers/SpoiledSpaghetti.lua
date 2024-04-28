@@ -18,7 +18,7 @@ local function init()
         {
             name = "Spoiled Spaghetti",
             text = {
-                "{C:mult}-#1# mult.{}",
+                "{C:mult}#1# mult.{}",
                 "Loses 5 {C:mult}mult{} per turn."
             
             }
@@ -40,9 +40,11 @@ end
 local function load_effect()
 
     function SMODS.Jokers.j_spoiled_spaghetti.calculate(card, context)
-        if context.end_of_round and not context.blueprint then
+        print(SMODS.Jokers)
+        if context.end_of_round and not context.blueprint and not (context.individual or context.repetition) then
             card.ability.mult = card.ability.mult - 5
-            return {
+            print("Spoiled Spaghetti loses 5 mult")
+            return { 
                 message = localize{type='variable',key='a_mult_minus',vars={5}},
             }
         end

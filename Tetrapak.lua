@@ -69,6 +69,17 @@ function SMODS.INIT.TetrapakJokers()
     end
     
     Load_atlas()
+
+    local cansell_ref = Card.can_sell_card
+    function Card:can_sell_card(context)
+        if self.config.center and self.config.center.rarity == CURSERARITY then
+            return false
+        end
+        
+        return cansell_ref(self,context)
+        
+    end
+
 end
 
 
