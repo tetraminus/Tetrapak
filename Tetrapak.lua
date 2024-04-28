@@ -1,6 +1,6 @@
 --- STEAMODDED HEADER
 --- MOD_NAME: Tetrapak
---- MOD_ID: tetraminus.tetrapak
+--- MOD_ID: tetraminus_tetrapak
 --- MOD_AUTHOR: [tetraminus]
 --- MOD_DESCRIPTION: A Content pack for Balatro.
 --- DISPLAY_NAME: Tetrapak
@@ -9,14 +9,23 @@
 ----------------------------------------------
 ------------MOD CODE -------------------------
 
-TETRAPAKID = "tetraminus.tetrapak"
-CURSERARITY = (TETRAPAKID .. ":Curses")
+TETRAPAKID = "tetraminus_tetrapak"
+
+tpmakeID = function(id)
+    return TETRAPAKID .. "_" .. id
+end
+
+CURSERARITY = tpmakeID("Curses")
+
+
+
+
 Tetrapak = {}
 
 
 
 function SMODS.INIT.TetrapakJokers()
-    local mod = SMODS.findModByID("tetraminus.tetrapak")
+    local mod = SMODS.findModByID(TETRAPAKID)
 
     G.P_JOKER_RARITY_POOLS[CURSERARITY] = {}
     
@@ -86,20 +95,34 @@ end
 
 function Load_atlas()
 
-    local mod = SMODS.findModByID("tetraminus.tetrapak")
+    local mod = SMODS.findModByID(TETRAPAKID)
 
-    local mirrorSprite = SMODS.Sprite:new(
-        'j_mirrored_joker',
-        mod.path,
-        "mirrored_joker.png",
-        0,
-        0,
-        "asset_images"
-    )
-    mirrorSprite:register()
+    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x")
+    local sprites = {}
 
+    for k, file in pairs(spritesFiles) do
+        if string.find(file, ".png") then
 
-    
+            name = string.sub(file, 1, string.len(file) - 4)
+
+            local sprite = SMODS.Sprite:new(
+                "j_" .. tpmakeID(name),
+                mod.path,
+                file,
+                0,
+                0,
+                "asset_images"
+            )
+
+            table.insert(sprites, sprite)
+            print("Loaded sprite: " .. file)
+
+        end
+    end
+
+    for k, sprite in pairs(sprites) do
+        sprite:register()
+    end
 end
 
 

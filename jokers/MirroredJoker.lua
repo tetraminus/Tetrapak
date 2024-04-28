@@ -3,8 +3,9 @@
 local function init()
     local mirroredjoker = SMODS.Joker:new(
         "Mirrored Joker",
-        "mirrored_joker",
+        tpmakeID("mirrored_joker"),
         {
+            pinned = true,
             extra = {}
         },
         {
@@ -18,8 +19,8 @@ local function init()
                 "{C:red}mult{} of your hand."
             }
         },
-        3,
-        7,
+        3, -- rarity
+        7, -- cost
         true,
         true,
         false,
@@ -27,14 +28,14 @@ local function init()
         "Mirrored Joker"
     )
     
-    Tetrapak.Jokers.j_mirrored_joker = mirroredjoker
-    print("Mirrored Joker initialized")
+    
+    Tetrapak.Jokers["j_" .. tpmakeID("mirrored_joker")] = mirroredjoker
     
 end
 
 local function load_effect()
 
-    function SMODS.Jokers.j_mirrored_joker.calculate(card, context)
+    SMODS.Jokers["j_" .. tpmakeID("mirrored_joker")].calculate = function(card, context)
         if context.cardarea == G.jokers and SMODS.end_calculate_context(context) then
             local currChips =  hand_chips
             local currMult = mult

@@ -3,7 +3,7 @@
 local function init()
     local spoiledspaghetti = SMODS.Joker:new(
         "Spoiled Spaghetti",
-        "spoiled_spaghetti",
+        tpmakeID("spoiled_spaghetti"),
         {
             
             extra = {
@@ -32,18 +32,18 @@ local function init()
         "Spoiled Spaghetti"
     )
     
-    Tetrapak.Jokers.j_spoiled_spaghetti = spoiledspaghetti
+    Tetrapak.Jokers["j_" .. tpmakeID("spoiled_spaghetti")] = spoiledspaghetti
     
     
 end
 
 local function load_effect()
 
-    function SMODS.Jokers.j_spoiled_spaghetti.calculate(card, context)
+    SMODS.Jokers["j_" .. tpmakeID("spoiled_spaghetti")].calculate = function(card, context)
         print(SMODS.Jokers)
         if context.end_of_round and not context.blueprint and not (context.individual or context.repetition) then
             card.ability.mult = card.ability.mult - 5
-            print("Spoiled Spaghetti loses 5 mult")
+        
             return { 
                 message = localize{type='variable',key='a_mult_minus',vars={5}},
             }
@@ -61,7 +61,7 @@ local function load_effect()
         end
     end
 
-    function SMODS.Jokers.j_spoiled_spaghetti.loc_def(card)
+    SMODS.Jokers["j_" .. tpmakeID("spoiled_spaghetti")].loc_def = function(card)
         return {
             card.ability.mult
         }
