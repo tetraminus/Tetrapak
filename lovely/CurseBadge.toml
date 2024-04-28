@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "card_type = (debuffed and AUT.card_type ~= 'Enhanced') and localize('k_debuffed') or card_type"
+position = "after"
+payload = '''
+if AUT.card_type == 'Joker' and card.config.center.rarity == (CURSERARITY) then
+    card_type = localize('k_' .. CURSERARITY) 
+end
+'''
+match_indent = true
+overwrite = false
