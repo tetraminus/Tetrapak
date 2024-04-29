@@ -1,1 +1,3 @@
 lib/**
+config.lua
+**.DS_Store
