@@ -235,22 +235,58 @@ function Load_Config()
             conf.Enabled[v] = true
         end
 
-        file:open("w")
-        file:write("return " .. table.tostring(conf))
+        Save_Config(conf)
     end
 
-    local config = love.filesystem.load(mod.path.."config.lua")()
+    local config = nil
+    local success, configLoader = pcall(love.filesystem.load, mod.path.."config.lua")
+    if success then
+        local success, loadedconfig = pcall(configLoader)
+        if not success then
+            -- Handle error in config
+            loadedconfig = GetDefaultConfig()
+        end
+
+        config = loadedconfig
+    else
+        -- Handle error in loading config
+        config = GetDefaultConfig()
+    end
+    Save_Config(config)
+
+    -- fill in Enabled with any new cards that have no entry
+    local allcardnames = {}
+    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."jokers")) do
+        table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
+    end
+
+    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."spectrals")) do
+        table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
+    end
+
+    for k, v in pairs(allcardnames) do
+        if config.Enabled[v] == nil then
+            config.Enabled[v] = true
+        end
+    end
+    Save_Config(config)
 
     G.TETRAPAK_Config = config
+    
 end
 
 
-function Save_Config()
+function Save_Config(conf)
+    if not conf then
+        conf = G.TETRAPAK_Config
+    end
     local mod = SMODS.findModByID(TETRAPAKID)
     local file = love.filesystem.newFile(mod.path.."config.lua")
     file:open("w")
-    file:write("return " .. table.tostring(G.TETRAPAK_Config))
+    file:write("return " .. table.tostring(conf))
+    file:close()
 end
+
 
 function GetDefaultConfig()
    
