@@ -53,7 +53,7 @@ local function load_effect()
     end
 
     SMODS.Jokers["j_" .. tpmakeID("misery")].set_badges = function (card, badges)
-        badges[#badges+1] = create_badge('Pinned Right', HEX('77FF77'), HEX('ffaaff'), 1.2)
+        badges[#badges+1] = create_badge('Pinned Right', HEX('77FF77'), HEX('000000'), 1.2)
     end
 
 

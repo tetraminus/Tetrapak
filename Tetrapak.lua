@@ -276,13 +276,17 @@ function table.tostring(tbl, depth)
     end
     local str = "{\n"
     local indents = str.rep("    ", depth)
+
     for k, v in pairs(tbl) do
         if type(v) == "table" then
-            str = str .. indents .. k .. "=" .. table.tostring(v, depth + 1) .. ",\n"
+            str = str .. indents .. k .. " = " .. table.tostring(v, depth + 1) .. ",\n"
+        elseif type(v) == "string" then
+            str = str .. indents .. k .. " = [[\n" .. v .. "]],\n"
         else
-            str = str ..indents.. k .. "=" .. tostring(v) .. ",\n"
+            str = str .. indents .. k .. " = " .. tostring(v) .. ",\n"
         end
     end
+    
     str = str .. "}"
     return str
 end
