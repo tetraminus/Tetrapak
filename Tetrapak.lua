@@ -15,6 +15,14 @@ tpmakeID = function(id)
     return TETRAPAKID .. "_" .. id
 end
 
+tpjokerSlug = function(id)
+    return "j_" .. tpmakeID(id)
+end
+
+tpconsumableSlug = function(id)
+    return "c_" .. tpmakeID(id)
+end
+
 CURSERARITY = tpmakeID("Curses")
 
 
@@ -29,20 +37,28 @@ function SMODS.INIT.TetrapakJokers()
 
     G.P_JOKER_RARITY_POOLS[CURSERARITY] = {}
     
-    G.C.RARITY[CURSERARITY] = HEX("000000")
+    G.C.RARITY[CURSERARITY] = HEX("444444")
 
     G.localization.misc.dictionary['k_'.. CURSERARITY] = "Curse"
+
+    local loc_colour_ref = loc_colour
+    function loc_colour(key)
+        if key == CURSERARITY then return HEX("444444")
+        else return loc_colour_ref(key) end
+    end
+
 
     local get_badge_colourref = get_badge_colour
 	function get_badge_colour(key)
 		local fromRef = get_badge_colourref(key)
 	
-		if key == 'k_' .. CURSERARITY then return HEX("aaaaaa") 
+		if key == 'k_' .. CURSERARITY then return HEX("444444") 
 		else return fromRef end
 	end
 
 
     Tetrapak.Jokers = {}
+    Tetrapak.Spectrals = {}
 
     --load all files in the jokers folder
     local jokerFiles = love.filesystem.getDirectoryItems(mod.path.."jokers")
@@ -55,6 +71,18 @@ function SMODS.INIT.TetrapakJokers()
         end
     end
 
+    -- load all files in the spectrals folder
+    local spectralFiles = love.filesystem.getDirectoryItems(mod.path.."spectrals")
+    local spectraldefs = {}
+    for k, file in pairs(spectralFiles) do
+        if string.find(file, ".lua") then
+            local spectral = love.filesystem.load(mod.path.."spectrals/"..file)()
+            table.insert(spectraldefs, spectral)
+        end
+    end
+
+
+
 
     --- DISABLE DEBUG MODE AFTER TESTING
     --G.DEBUG = true
@@ -66,6 +94,10 @@ function SMODS.INIT.TetrapakJokers()
         jokerdef:init()
         
     end
+
+    for k, spectraldef in pairs(spectraldefs) do
+        spectraldef:init()
+    end
     
 
     
@@ -73,8 +105,16 @@ function SMODS.INIT.TetrapakJokers()
         joker:register()
     end
 
+    for k, spectral in pairs(Tetrapak.Spectrals) do
+        spectral:register()
+    end
+
     for k, jokerdef in pairs(jokerdefs) do
         jokerdef:load_effect()
+    end
+
+    for k, spectraldef in pairs(spectraldefs) do
+        spectraldef:load_effect()
     end
     
     Load_atlas()
@@ -91,14 +131,24 @@ function SMODS.INIT.TetrapakJokers()
 
 end
 
+function Tetrapak.get_random_curse()
+    local curses = G.P_JOKER_RARITY_POOLS[CURSERARITY]
+    local curse = curses[pseudorandom("CurseRoll", 1, #curses)]
+
+    return curse.center.slug
+    
+end
+
 
 
 function Load_atlas()
 
     local mod = SMODS.findModByID(TETRAPAKID)
-
-    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x")
     local sprites = {}
+
+    -- jokers
+    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/jokers")
+   
 
     for k, file in pairs(spritesFiles) do
         if string.find(file, ".png") then
@@ -106,12 +156,12 @@ function Load_atlas()
             name = string.sub(file, 1, string.len(file) - 4)
 
             local sprite = SMODS.Sprite:new(
-                "j_" .. tpmakeID(name),
+                tpjokerSlug(name),
                 mod.path,
-                file,
+                "jokers/" .. file,
                 0,
                 0,
-                "asset_images"
+                "asset_atli"
             )
 
             table.insert(sprites, sprite)
@@ -119,6 +169,31 @@ function Load_atlas()
 
         end
     end
+
+    -- spectrals
+    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/spectrals")
+
+    for k, file in pairs(spritesFiles) do
+        if string.find(file, ".png") then
+
+            name = string.sub(file, 1, string.len(file) - 4)
+
+            local sprite = SMODS.Sprite:new(
+                tpconsumableSlug(name),
+                mod.path,
+                "spectrals/" .. file,
+                0,
+                0,
+                "asset_atli"
+            )
+
+            table.insert(sprites, sprite)
+            print("Loaded sprite: " .. file)
+
+        end
+    end
+
+
 
     for k, sprite in pairs(sprites) do
         sprite:register()

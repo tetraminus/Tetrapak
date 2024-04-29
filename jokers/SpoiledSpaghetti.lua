@@ -61,6 +61,9 @@ local function load_effect()
         end
     end
 
+
+
+
     SMODS.Jokers["j_" .. tpmakeID("spoiled_spaghetti")].loc_def = function(card)
         return {
             card.ability.mult

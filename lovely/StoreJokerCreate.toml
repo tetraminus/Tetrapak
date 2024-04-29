@@ -1,0 +1,25 @@
+
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "functions/UI_definitions.lua"
+pattern = "local forced_tag = nil"
+position = "before"
+payload = '''
+for k, v in ipairs(G.jokers.cards) do
+    local card = v:calculate_joker{
+        store_card_create = true,
+        area = area
+    }
+    
+    if card then
+        return card
+    end
+end
+'''
+match_indent = true
+overwrite = false
