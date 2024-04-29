@@ -15,3 +15,18 @@ end
 '''
 match_indent = true
 overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "rarity = (_legendary and 4) or (rarity > 0.95 and 3) or (rarity > 0.7 and 2) or 1"
+position = "at"
+payload = '''
+    if type(_rarity) == 'string' then
+        rarity = _rarity
+    else
+        rarity = (_legendary and 4) or (rarity > 0.95 and 3) or (rarity > 0.7 and 2) or 1
+    end
+'''
+match_indent = true
+overwrite = false

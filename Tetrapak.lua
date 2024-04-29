@@ -4,7 +4,7 @@
 --- MOD_AUTHOR: [tetraminus]
 --- MOD_DESCRIPTION: A Content pack for Balatro.
 --- DISPLAY_NAME: Tetrapak
---- BADGE_COLOUR: 0000ff
+--- BADGE_COLOUR: 3333aa
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
@@ -26,13 +26,12 @@ end
 CURSERARITY = tpmakeID("Curses")
 
 
-
-
 Tetrapak = {}
 
 
 
 function SMODS.INIT.TetrapakJokers()
+    
     local mod = SMODS.findModByID(TETRAPAKID)
 
     G.P_JOKER_RARITY_POOLS[CURSERARITY] = {}
@@ -131,13 +130,6 @@ function SMODS.INIT.TetrapakJokers()
 
 end
 
-function Tetrapak.get_random_curse()
-    local curses = G.P_JOKER_RARITY_POOLS[CURSERARITY]
-    local curse = curses[pseudorandom("CurseRoll", 1, #curses)]
-
-    return curse.center.slug
-    
-end
 
 
 

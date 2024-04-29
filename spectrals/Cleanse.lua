@@ -63,7 +63,7 @@ local function load_effect()
                 
             end
 
-            print("eligible_strength_jokers: " .. #eligible_strength_jokers)
+            
 
             return #eligible_strength_jokers > 0
         end

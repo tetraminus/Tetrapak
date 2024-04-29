@@ -40,7 +40,6 @@ end
 local function load_effect()
 
     SMODS.Jokers["j_" .. tpmakeID("spoiled_spaghetti")].calculate = function(card, context)
-        print(SMODS.Jokers)
         if context.end_of_round and not context.blueprint and not (context.individual or context.repetition) then
             card.ability.mult = card.ability.mult - 5
         

@@ -7,7 +7,7 @@ local function init()
         slug = tpmakeID("spirits"),
         config = {
             extra = {
-                jokerrarity = 2,
+                
             }
         },
         pos = {
@@ -44,15 +44,15 @@ local function load_effect()
             newjoker:set_edition({negative = true})
             newjoker:start_materialize()
 
-            local curse = create_card('joker', G.jokers, nil, 0.75, nil, nil, Tetrapak.get_random_curse(), 'spi')
+            local curse = create_card('Joker', G.jokers, nil, CURSERARITY, nil, nil,nil, 'spi')
             curse:add_to_deck()
             G.jokers:emplace(curse)
             curse:start_materialize()
         end
 
-        
-
-
+        SMODS.Spectrals[tpconsumableSlug("spirits")].can_use = function(card)
+            return true
+        end
     
 end
 

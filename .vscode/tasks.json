@@ -1,0 +1,15 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "testBalatro",
+            "type": "shell",
+            "command": "${HOME}/Library/\"Application Support\"/Steam/steamapps/common/Balatro/RunLovely.sh",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+  }
