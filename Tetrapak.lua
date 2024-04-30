@@ -34,6 +34,7 @@ function SMODS.INIT.TetrapakJokers()
 
 
     Load_Config()
+    Load_atlas()
     
     local mod = SMODS.findModByID(TETRAPAKID)
 
@@ -132,7 +133,7 @@ function SMODS.INIT.TetrapakJokers()
     end
 
     
-    Load_atlas()
+    
 
     local cansell_ref = Card.can_sell_card
     function Card:can_sell_card(context)
@@ -142,6 +143,30 @@ function SMODS.INIT.TetrapakJokers()
         
         return cansell_ref(self,context)
         
+    end
+
+    local add_to_deck_ref = Card.add_to_deck
+    function Card:add_to_deck(from_debuff)
+        add_to_deck_ref(self, from_debuff)
+        print("added " .. self.ability.name)
+        print(self.config.center.rarity)
+        print(CURSERARITY)
+        if self.config.center.rarity == CURSERARITY and (not from_debuff) and self.ability.name ~= "Bound" then
+            print("added curse")
+            G.jokers.config.card_limit = G.jokers.config.card_limit + 1
+        end
+        return 
+    end
+
+    local remove_from_deck_ref = Card.remove_from_deck
+    function Card:remove_from_deck(from_debuff)
+        remove_from_deck_ref(self, from_debuff)
+        print("removed" .. self.ability.name)
+        
+        if self.config.center.rarity == CURSERARITY and (not from_debuff)  and self.added_to_deck and self.ability.name ~= "Bound" then
+            G.jokers.config.card_limit = G.jokers.config.card_limit - 1
+        end
+        return 
     end
 
 end

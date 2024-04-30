@@ -4,8 +4,16 @@
         {
             "label": "testBalatro",
             "type": "shell",
-            "command": "${HOME}/Library/\"Application Support\"/Steam/steamapps/common/Balatro/RunLovely.sh",
+            
             "problemMatcher": [],
+            "osx": {
+                "command": "${HOME}/Library/\"Application Support\"/Steam/steamapps/common/Balatro/RunLovely.sh"
+            },
+            "windows": {
+                // 
+
+                "command": "D:\\'Program Files (x86)'\\Steam\\steamapps\\common\\Balatro\\Balatro.exe"
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true

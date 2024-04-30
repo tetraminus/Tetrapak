@@ -23,11 +23,12 @@ local function init()
         
         },
         cost = 6,
-        discovered = true
+        discovered = true,
+        atlas = tpconsumableSlug(name)
 
     }
 
-    local Spirits = SMODS.Spectral:new(data.name, data.slug, data.config, data.pos, data.loc_text, data.cost, true, data.discovered)
+    local Spirits = SMODS.Spectral:new(data.name, data.slug, data.config, data.pos, data.loc_text, data.cost, true, data.discovered, data.atlas)
 
 
     Tetrapak.Spectrals[tpmakeID("spirits")] = Spirits

@@ -23,3 +23,15 @@ end
 '''
 match_indent = true
 overwrite = false
+
+
+[[patches]]
+[patches.pattern]
+target = "main.lua"
+pattern = "not c.ending_shop and not c.reroll_shop and not c.selling_card and not c.selling_self and not c.buying_card and"
+position = "after"
+payload = '''
+not c.store_card_create and
+'''
+match_indent = true
+overwrite = false
