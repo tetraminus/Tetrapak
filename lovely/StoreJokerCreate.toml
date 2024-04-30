@@ -27,6 +27,7 @@ overwrite = false
 
 [[patches]]
 [patches.pattern]
+## holy hell this took a while to figure out
 target = "main.lua"
 pattern = "not c.ending_shop and not c.reroll_shop and not c.selling_card and not c.selling_self and not c.buying_card and"
 position = "after"
