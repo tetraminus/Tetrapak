@@ -43,6 +43,14 @@ function SMODS.INIT.TetrapakJokers()
     G.C.RARITY[CURSERARITY] = HEX("444444")
 
     G.localization.misc.dictionary['k_'.. CURSERARITY] = "Curse"
+    G.localization.descriptions.Other[tpmakeID('curse_tip')] = {
+        name = "Curse",
+        text = {
+            "This card is cursed.",
+            "It cannot be sold.",
+            "+1 Joker slot"
+        }
+    }
 
     local loc_colour_ref = loc_colour
     function loc_colour(key)
@@ -166,6 +174,21 @@ function SMODS.INIT.TetrapakJokers()
         end
         return 
     end
+    -- add curse tooltips
+    for k, v in pairs(SMODS.Jokers) do
+        if v.rarity == CURSERARITY then
+            local old_tooltip = v.tooltip
+            v.tooltip = function (_c, info_queue)
+                if old_tooltip then
+                    old_tooltip(_c, info_queue)
+                end
+                table.insert(info_queue, { set = 'Other', key = tpmakeID('curse_tip'), vars = {} })
+                
+            end
+        end
+        
+    end
+
 
 end
 
