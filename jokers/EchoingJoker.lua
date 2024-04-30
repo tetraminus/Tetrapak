@@ -7,7 +7,7 @@ local function init()
         {
             
             extra = {
-                last_hand = nil
+
             }
         },
         {
@@ -17,8 +17,8 @@ local function init()
         {
             name = "Echoing Joker",
             text = {
-                "Swaps the {C:chips}chips{} and",
-                "{C:red}mult{} of your hand."
+                "High Cards count as the last hand played",
+                "Currently: #1#"
             }
         },
         3, -- rarity
@@ -38,19 +38,33 @@ end
 local function load_effect()
 
     local eval_hand_ref = evaluate_poker_hand
-    function evaluate_poker_hand(eval_hand_ref)
-        local hand = eval_hand_ref()
+    function evaluate_poker_hand(playerhand)
+        
+        local hand = eval_hand_ref(playerhand)
         local echoingjoker = next(find_joker("Echoing Joker"))
-        if echoingjoker then
-        
-            if hand == "High Card" and G.GAME.last_hand_played then
-                return  G.GAME.last_hand_played
+        if echoingjoker and G.GAME.last_hand_played then
+            
+            -- if hand["High Card"] and top is the only entry in the table, then it is the only hand played
+            print(table.tostring(hand))
+            local num = 0
+            for k, v in pairs(hand) do
+                if #v ~= 0 then
+                    num = num + 1
+                end
             end
+            if num == 2 then
+                hand[G.GAME.last_hand_played] = hand["High Card"]
+            end
+
+
         end
-
-
-        
         return hand
+    end
+
+    SMODS.Jokers["j_" .. tpmakeID("echoing_joker")].loc_def = function (self, player)
+        return {
+            G.GAME.last_hand_played or "None"
+        }
     end
 
 

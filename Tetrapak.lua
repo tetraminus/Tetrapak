@@ -337,6 +337,11 @@ function table.tostring(tbl, depth)
     local indents = str.rep("    ", depth)
 
     for k, v in pairs(tbl) do
+        MAX_DEPTH = 2
+        if depth > MAX_DEPTH then
+            str = str .. indents .. k .. " = \"...\",\n"
+            break
+        end
         if type(v) == "table" then
             str = str .. indents .. k .. " = " .. table.tostring(v, depth + 1) .. ",\n"
         elseif type(v) == "string" then
