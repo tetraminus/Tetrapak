@@ -43,7 +43,6 @@ local function load_effect()
             local pool, poolkey = get_pool_ref(_type, _rarity, _legendary, _append)
             -- remove from pool if not seeded
             if not G.GAME.seeded then
-                print("not seeded")
                 for i = #pool, 1, -1 do
                     if pool[i] == tpconsumableSlug("apotheosis") then
                         table.remove(pool, i)

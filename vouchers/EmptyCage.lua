@@ -115,5 +115,6 @@ end
 
 return {
     init = init,
-    load_effect = load_effect
+    load_effect = load_effect,
+    name = "EmptyCage",
 }

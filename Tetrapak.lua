@@ -110,6 +110,18 @@ function SMODS.INIT.TetrapakJokers()
         end
     end
 
+    -- place voucherdefs in the correct order by the after field, ex: after = "emptycage"
+    local function sort_voucherdefs(a, b)
+        if a.after == b.name then
+            print("aligned")
+            return true
+        end
+        return false
+    end
+
+    table.sort(voucherdefs, sort_voucherdefs)
+    
+
 
 
     --- DISABLE DEBUG MODE AFTER TESTING
