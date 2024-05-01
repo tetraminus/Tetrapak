@@ -23,7 +23,7 @@ local function init()
         true,
         true,
         false,
-        true,
+        false,
         "Big Red Button"
     )
     

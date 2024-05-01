@@ -49,7 +49,7 @@ local function load_effect()
             end
         end
 
-        if context.store_card_create  then   
+        if context.store_card_create and not context.blueprint then   
             if pseudorandom("fusionjoker") < G.GAME.probabilities.normal/card.ability.extra.chance then
                 local newcard = create_card('Joker', context.area, nil, 0.9, nil, nil, tpjokerSlug("fusion_joker"), 'uta')
                 create_shop_card_ui(newcard, 'Joker', context.area)

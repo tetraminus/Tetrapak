@@ -23,7 +23,7 @@ local function init()
         7, -- cost
         true,
         true,
-        false,
+        true,
         true,
         "Mirrored Joker"
     )
@@ -51,6 +51,8 @@ local function load_effect()
             }
         end
     end
+
+    
     
 end
 
