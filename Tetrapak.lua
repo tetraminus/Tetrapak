@@ -23,6 +23,10 @@ tpconsumableSlug = function(id)
     return "c_" .. tpmakeID(id)
 end
 
+tpvoucherSlug = function(id)
+    return "v_" .. tpmakeID(id)
+end
+
 CURSERARITY = tpmakeID("Curses")
 
 
@@ -70,6 +74,7 @@ function SMODS.INIT.TetrapakJokers()
 
     Tetrapak.Jokers = {}
     Tetrapak.Spectrals = {}
+    Tetrapak.Vouchers = {}
 
     --load all files in the jokers folder
     local jokerFiles = love.filesystem.getDirectoryItems(mod.path.."jokers")
@@ -94,7 +99,16 @@ function SMODS.INIT.TetrapakJokers()
             table.insert(spectraldefs, spectral)
         end
     end
-
+    
+    -- load all files in the vouchers folder
+    local voucherFiles = love.filesystem.getDirectoryItems(mod.path.."vouchers")
+    local voucherdefs = {}
+    for k, file in pairs(voucherFiles) do
+        if string.find(file, ".lua") and G.TETRAPAK_Config.Enabled[string.sub(file, 1, string.len(file) - 4):lower()] then
+            local voucher = love.filesystem.load(mod.path.."vouchers/"..file)()
+            table.insert(voucherdefs, voucher)
+        end
+    end
 
 
 
@@ -104,40 +118,40 @@ function SMODS.INIT.TetrapakJokers()
 
     
 
-    for k, jokerdef in pairs(jokerdefs) do
+    for _, jokerdef in pairs(jokerdefs) do
         jokerdef:init()
-        
     end
 
-    for k, spectraldef in pairs(spectraldefs) do
+    for _, spectraldef in pairs(spectraldefs) do
         spectraldef:init()
     end
-    
 
-    
-    for k, joker in pairs(Tetrapak.Jokers) do
+    for _, voucherdef in pairs(voucherdefs) do
+        voucherdef:init()
+    end
 
+    for _, joker in pairs(Tetrapak.Jokers) do
         joker:register()
-
     end
 
-    for k, spectral in pairs(Tetrapak.Spectrals) do
-       
-            spectral:register()
-        
-
+    for _, spectral in pairs(Tetrapak.Spectrals) do
+        spectral:register()
     end
 
-    for k, jokerdef in pairs(jokerdefs) do
-        
+    for _, voucher in pairs(Tetrapak.Vouchers) do
+        voucher:register()
+    end
+
+    for _, jokerdef in pairs(jokerdefs) do
         jokerdef:load_effect()
-        
     end
 
-    for k, spectraldef in pairs(spectraldefs) do
-        
+    for _, spectraldef in pairs(spectraldefs) do
         spectraldef:load_effect()
-        
+    end
+
+    for _, voucherdef in pairs(voucherdefs) do
+        voucherdef:load_effect()
     end
 
     
@@ -247,6 +261,29 @@ function Load_atlas()
         end
     end
 
+    -- vouchers
+    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/vouchers")
+    
+    for k, file in pairs(spritesFiles) do
+        if string.find(file, ".png") then
+
+            name = string.sub(file, 1, string.len(file) - 4)
+
+            local sprite = SMODS.Sprite:new(
+                tpvoucherSlug(name),
+                mod.path,
+                "vouchers/" .. file,
+                0,
+                0,
+                "asset_atli"
+            )
+
+            table.insert(sprites, sprite)
+            print("Loaded sprite: " .. file)
+
+        end
+    end
+
 
 
     for k, sprite in pairs(sprites) do
@@ -307,6 +344,10 @@ function Load_Config()
     end
 
     for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."spectrals")) do
+        table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
+    end
+
+    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."vouchers")) do
         table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
     end
 

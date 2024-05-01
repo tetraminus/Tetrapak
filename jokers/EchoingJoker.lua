@@ -37,10 +37,20 @@ end
 
 local function load_effect()
 
+    
+
+    SMODS.Jokers[tpjokerSlug("echoing_joker")].loc_def = function (self, player)
+        return {
+            G.GAME.last_hand_played or "None"
+        }
+    end
+
+
+
     local eval_hand_ref = evaluate_poker_hand
-    function evaluate_poker_hand(playerhand)
+    function evaluate_poker_hand(hand)
         
-        local hand = eval_hand_ref(playerhand)
+        local hand = eval_hand_ref(hand)
         local echoingjoker = next(find_joker("Echoing Joker"))
         if echoingjoker and G.GAME.last_hand_played then
             
@@ -59,12 +69,6 @@ local function load_effect()
 
         end
         return hand
-    end
-
-    SMODS.Jokers["j_" .. tpmakeID("echoing_joker")].loc_def = function (self, player)
-        return {
-            G.GAME.last_hand_played or "None"
-        }
     end
 
 
