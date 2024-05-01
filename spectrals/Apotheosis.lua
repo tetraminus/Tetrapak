@@ -18,7 +18,7 @@ local function init()
             name = "Apotheosis",
             text = {
                 "{C:inactive}RISE BEYOND THE LIMITS OF MORTALITY.{}",
-                "{C:inactive}BECOME THE GOD YOU WERE MEANT TO BE.{}",
+                "{C:inactive}UNWIND THE VERY THREADS OF FATE ITSELF.{}",
                 "{C:attention}Remove the seed of the run{}"
             }
         
@@ -60,7 +60,7 @@ local function load_effect()
         
     
         SMODS.Spectrals[tpconsumableSlug("apotheosis")].use = function(card, area, copier)
-            G.GAME.pseudorandom.seed = math.random(1, 1000000)
+            G.GAME.pseudorandom.seed = tostring(math.random(1, 999999))
             G.GAME.seeded = false
         end
 
