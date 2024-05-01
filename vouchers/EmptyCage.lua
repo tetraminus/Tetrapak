@@ -47,11 +47,13 @@ local function load_effect()
 
     function Card:can_toggle_debuff()
         local allowcurse = false
-        if G.GAME.used_vouchers[tpvoucherSlug("demonsprison")] then
+        if G.GAME.used_vouchers[tpvoucherSlug("demonprison")] then
+   
             allowcurse = true
         end
-
-        if not allowcurse and self.center.rarity == CURSERARITY then
+      
+        if (self.config.center.rarity == CURSERARITY) and not allowcurse then
+   
             return false
         end
 
