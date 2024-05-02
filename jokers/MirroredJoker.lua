@@ -1,6 +1,7 @@
 
 
 local function init()
+
     local mirroredjoker = SMODS.Joker:new(
         "Mirrored Joker",
         tpmakeID("mirrored_joker"),

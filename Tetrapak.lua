@@ -27,6 +27,10 @@ tpvoucherSlug = function(id)
     return "v_" .. tpmakeID(id)
 end
 
+tpblindSlug = function(id)
+    return "bl_" .. tpmakeID(id)
+end
+
 CURSERARITY = tpmakeID("Curses")
 
 
@@ -75,6 +79,7 @@ function SMODS.INIT.TetrapakJokers()
     Tetrapak.Jokers = {}
     Tetrapak.Spectrals = {}
     Tetrapak.Vouchers = {}
+    Tetrapak.Blinds = {}
 
     --load all files in the jokers folder
     local jokerFiles = love.filesystem.getDirectoryItems(mod.path.."jokers")
@@ -120,6 +125,16 @@ function SMODS.INIT.TetrapakJokers()
     end
 
     table.sort(voucherdefs, sort_voucherdefs)
+
+    -- load all files in the blinds folder
+    local blindFiles = love.filesystem.getDirectoryItems(mod.path.."blinds")
+    local blinddefs = {}
+    for k, file in pairs(blindFiles) do
+        if string.find(file, ".lua") and G.TETRAPAK_Config.Enabled[string.sub(file, 1, string.len(file) - 4):lower()] then
+            local blind = love.filesystem.load(mod.path.."blinds/"..file)()
+            table.insert(blinddefs, blind)
+        end
+    end
     
 
 
@@ -142,6 +157,10 @@ function SMODS.INIT.TetrapakJokers()
         voucherdef:init()
     end
 
+    for _, blinddef in pairs(blinddefs) do
+        blinddef:init()
+    end
+
     for _, joker in pairs(Tetrapak.Jokers) do
         joker:register()
     end
@@ -154,6 +173,10 @@ function SMODS.INIT.TetrapakJokers()
         voucher:register()
     end
 
+    for _, blind in pairs(Tetrapak.Blinds) do
+        blind:register()
+    end
+
     for _, jokerdef in pairs(jokerdefs) do
         jokerdef:load_effect()
     end
@@ -164,6 +187,10 @@ function SMODS.INIT.TetrapakJokers()
 
     for _, voucherdef in pairs(voucherdefs) do
         voucherdef:load_effect()
+    end
+
+    for _, blinddef in pairs(blinddefs) do
+        blinddef:load_effect()
     end
 
     
@@ -296,6 +323,30 @@ function Load_atlas()
         end
     end
 
+    -- blinds
+    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/blinds")
+
+    for k, file in pairs(spritesFiles) do
+        if string.find(file, ".png") then
+
+            name = string.sub(file, 1, string.len(file) - 4)
+
+            local sprite = SMODS.Sprite:new(
+                tpblindSlug(name),
+                mod.path,
+                "blinds/" .. file,
+                34,
+                34,
+                "animation_atli",
+                21
+            )
+
+            table.insert(sprites, sprite)
+            print("Loaded sprite: " .. file)
+
+        end
+    end
+
 
 
     for k, sprite in pairs(sprites) do
@@ -360,6 +411,10 @@ function Load_Config()
     end
 
     for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."vouchers")) do
+        table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
+    end
+
+    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."blinds")) do
         table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
     end
 
