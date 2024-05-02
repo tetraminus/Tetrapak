@@ -8,7 +8,8 @@
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
-ConfigHelper = require("ConfigHelper")
+
+
 TETRAPAKID = "tetraminus_tetrapak"
 
 tpmakeID = function(id)
@@ -38,7 +39,13 @@ Tetrapak = {}
 
 
 
+
 function SMODS.INIT.TetrapakJokers()
+    -- load stuff
+    local modpath = SMODS.findModByID(TETRAPAKID).path
+
+    love.filesystem.load(modpath.."ConfigHelper.lua")()
+
 
 
     Load_Config()
