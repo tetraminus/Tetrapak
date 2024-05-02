@@ -32,6 +32,8 @@ tpblindSlug = function(id)
     return "bl_" .. tpmakeID(id)
 end
 
+
+
 CURSERARITY = tpmakeID("Curses")
 
 
@@ -41,8 +43,11 @@ Tetrapak = {}
 
 
 function SMODS.INIT.TetrapakJokers()
+    local mod = SMODS.findModByID(TETRAPAKID)
+    local modpath = mod.path
+
     -- load stuff
-    local modpath = SMODS.findModByID(TETRAPAKID).path
+    
 
     love.filesystem.load(modpath.."ConfigHelper.lua")()
 
@@ -51,7 +56,7 @@ function SMODS.INIT.TetrapakJokers()
     Load_Config()
     Load_atlas()
     
-    local mod = SMODS.findModByID(TETRAPAKID)
+    
 
     G.P_JOKER_RARITY_POOLS[CURSERARITY] = {}
     
