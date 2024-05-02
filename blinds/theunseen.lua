@@ -22,7 +22,7 @@ local function init()
             max = 10
         },
         color = HEX('aaa0aa'),
-        boss_colour = HEX('aa04aa'),
+        boss_colour = HEX('aa00aa'),
         defeated = true,
         
         
@@ -53,16 +53,32 @@ local function load_effect ()
         blind.turn = 0
     end
 
-    SMODS.Blinds[tpblindSlug("theunseen")].press_play = function (blind)
-        
-        blind.turn = blind.turn + 1
-        if blind.turn == 2 then
-            local curse = create_card('Joker', G.jokers, nil, CURSERARITY, nil, nil,nil, 'spi')
-            curse:add_to_deck()
-            G.jokers:emplace(curse)
-            curse:start_materialize()
+    local debuff_hand_ref = Blind.debuff_hand
+
+    function Blind:debuff_hand(cards, hand, handname, check)
+
+
+        if self.name == "The Unseen" then
+            if check and self.turn == 1 then
+                return true
+            end
+
+            if not check then
+                self.turn = self.turn + 1
+                if self.turn == 2 then
+                    local curse = create_card('Joker', G.jokers, nil, CURSERARITY, nil, nil,nil, 'spi')
+                    curse:add_to_deck()
+                    G.jokers:emplace(curse)
+                    curse:start_materialize()
+                end
+            end
         end
+        
     end
+
+    
+  
+
 end
 
 

@@ -250,7 +250,29 @@ function initRegisterAndLoad(alldefs)
 end
 
 
+function loadSprites(directory, folder, slugFunction, sprites)
+    local mod = SMODS.findModByID(TETRAPAKID)
+    local spritesFiles = love.filesystem.getDirectoryItems(directory)
 
+    for k, file in pairs(spritesFiles) do
+        if string.find(file, ".png") then
+            name = string.sub(file, 1, string.len(file) - 4)
+
+            local sprite = SMODS.Sprite:new(
+                slugFunction(name),
+                mod.path,
+                folder .. "/" .. file,
+                71,
+                95,
+                "asset_atli"
+            )
+
+            table.insert(sprites, sprite)
+            print("Loaded sprite: " .. file)
+        end
+          
+    end
+end
 
 function Load_atlas()
 
@@ -258,74 +280,15 @@ function Load_atlas()
     local sprites = {}
 
     -- jokers
-    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/jokers")
-   
-
-    for k, file in pairs(spritesFiles) do
-        if string.find(file, ".png") then
-
-            name = string.sub(file, 1, string.len(file) - 4)
-
-            local sprite = SMODS.Sprite:new(
-                tpjokerSlug(name),
-                mod.path,
-                "jokers/" .. file,
-                0,
-                0,
-                "asset_atli"
-            )
-
-            table.insert(sprites, sprite)
-            print("Loaded sprite: " .. file)
-
-        end
-    end
+    loadSprites(mod.path.."assets/1x/jokers", "jokers", tpjokerSlug, sprites)
 
     -- spectrals
-    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/spectrals")
-
-    for k, file in pairs(spritesFiles) do
-        if string.find(file, ".png") then
-
-            name = string.sub(file, 1, string.len(file) - 4)
-
-            local sprite = SMODS.Sprite:new(
-                tpconsumableSlug(name),
-                mod.path,
-                "spectrals/" .. file,
-                0,
-                0,
-                "asset_atli"
-            )
-
-            table.insert(sprites, sprite)
-            print("Loaded sprite: " .. file)
-
-        end
-    end
+    loadSprites(mod.path.."assets/1x/spectrals", "spectrals", tpconsumableSlug, sprites)
 
     -- vouchers
-    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/vouchers")
-    
-    for k, file in pairs(spritesFiles) do
-        if string.find(file, ".png") then
+    loadSprites(mod.path.."assets/1x/vouchers", "vouchers", tpvoucherSlug, sprites)
 
-            name = string.sub(file, 1, string.len(file) - 4)
-
-            local sprite = SMODS.Sprite:new(
-                tpvoucherSlug(name),
-                mod.path,
-                "vouchers/" .. file,
-                0,
-                0,
-                "asset_atli"
-            )
-
-            table.insert(sprites, sprite)
-            print("Loaded sprite: " .. file)
-
-        end
-    end
+  
 
     -- blinds
     local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/blinds")

@@ -16,7 +16,7 @@ local function init()
         tpmakeID("gamblin_man"),
         {
             extra = {
-                min = -1,
+                min = -0.5,
                 max = 2
             }
         },
@@ -50,20 +50,17 @@ local function load_effect()
         if G.jokers ~= nil then
             for _, v in ipairs(G.jokers.cards) do
                 if v.ability.name == "Gamblin Man" and not v.debuff and mod > 0 then
-                    local multint = pseudorandom("gamblinman", v.ability.extra.min, v.ability.extra.max) -- int
-                    local multfrac = pseudorandom("gamblinman") -- frac
-                    -- round to nearest 0.5
-                    local mult = multint + ((multfrac > 0.5 and multint < 2 ) and 0.5 or 0)
+                    local mult = pseudorandom("gamblin_man") -- 0 - 1
+                    mult = v.ability.extra.min + mult * (v.ability.extra.max - v.ability.extra.min)
 
-                    
+                    -- round to 0.25
+                    mult = math.floor(mult * 4 + 0.5) / 4
+
 
                     mod = math.ceil(mod * mult)
-                    G.E_MANAGER:add_event(Event({
-                        func = function() 
-                            v:juice_up(1.0,0.5)
-                            card_eval_status_text(v, 'extra', nil, nil, nil, {message = tostring(mult) .. 'x'}); 
-                            return true
-                    end}))
+                    v:juice_up(1.0,0.5)
+                    card_eval_status_text(v, 'extra', nil, nil, nil, {message = tostring(mult) .. 'x'}); 
+                   
                 end
             end
         end

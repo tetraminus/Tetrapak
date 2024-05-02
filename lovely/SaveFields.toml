@@ -1,0 +1,50 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+
+
+# save the pinned_right value
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "pinned = self.pinned,"
+position = "after"
+payload = "pinned_right = self.pinned_right,"
+match_indent = true
+overwrite = false
+
+# load the pinned_right value
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "self.pinned = cardTable.pinned"
+position = "after"
+payload = "self.pinned_right = cardTable.pinned_right"
+match_indent = true
+overwrite = false
+
+
+# save the blind value
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = "triggered = self.triggered"
+position = "after"
+payload = ",turn = self.turn"
+match_indent = true
+overwrite = false
+
+
+# load the the unseen hand value
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = "self.triggered = blindTable.triggered"
+position = "after"
+payload = "self.turn = blindTable.turn"
+match_indent = true
+overwrite = false
+
+

@@ -1,0 +1,22 @@
+
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+
+
+# save the pinned_right value
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "self.boss_warning_text.attention_text = true"
+position = "before"
+payload = '''
+if G.GAME.blind.name == 'The Unseen' then
+    -- remove the first line of text
+    self.boss_warning_text.definition.nodes[1].nodes[1].config.object:remove()
+end
+'''
+match_indent = true
+overwrite = false

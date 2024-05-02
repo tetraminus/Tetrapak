@@ -1,0 +1,17 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "boss_col = v.boss_colour or G.C.BLACK"
+position = "after"
+payload = '''
+if v.name == "The Unseen" then
+  boss_col = HEX("000000")
+end
+'''
+match_indent = true
+overwrite = false

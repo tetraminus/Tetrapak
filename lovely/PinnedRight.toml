@@ -14,16 +14,15 @@ table.sort(self.cards, function (a, b)
             local a_val = a.T.x + a.T.w/2 - 100*(a.pinned and a.sort_id or 0)
             local b_val = b.T.x + b.T.w/2 - 100*(b.pinned and b.sort_id or 0)
 
-            if a.pinned_right and b.pinned_right then
-                return a_val > b_val
-            elseif a.pinned_right then
-                return false
-            elseif b.pinned_right then
-                return true
-            else
-                return a_val < b_val
-            end
+            a_val = a_val + 100*(a.pinned_right and a.sort_id or 0)
+            b_val = b_val + 100*(b.pinned_right and b.sort_id or 0)
+            
+            return a_val < b_val
+            
         end)
 '''
 match_indent = true
 overwrite = false
+
+
+

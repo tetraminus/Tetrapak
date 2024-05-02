@@ -15,7 +15,6 @@ local function init()
         {
             
             extra = {
-                eternal = true,
                 mult = 0
             }
         },
