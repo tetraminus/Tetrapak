@@ -8,7 +8,7 @@
 
 ----------------------------------------------
 ------------MOD CODE -------------------------
-
+ConfigHelper = require("ConfigHelper")
 TETRAPAKID = "tetraminus_tetrapak"
 
 tpmakeID = function(id)
@@ -74,12 +74,14 @@ function SMODS.INIT.TetrapakJokers()
 		if key == 'k_' .. CURSERARITY then return HEX("444444") 
 		else return fromRef end
 	end
-
+    Tetrapak.Registry = {}
 
     Tetrapak.Jokers = {}
     Tetrapak.Spectrals = {}
     Tetrapak.Vouchers = {}
     Tetrapak.Blinds = {}
+
+    local alldefs = {}
 
     --load all files in the jokers folder
     local jokerFiles = love.filesystem.getDirectoryItems(mod.path.."jokers")
@@ -95,6 +97,8 @@ function SMODS.INIT.TetrapakJokers()
         end
     end
 
+    table.insert(alldefs, jokerdefs)
+
     -- load all files in the spectrals folder
     local spectralFiles = love.filesystem.getDirectoryItems(mod.path.."spectrals")
     local spectraldefs = {}
@@ -105,6 +109,7 @@ function SMODS.INIT.TetrapakJokers()
         end
     end
     
+    table.insert(alldefs, spectraldefs)
     -- load all files in the vouchers folder
     local voucherFiles = love.filesystem.getDirectoryItems(mod.path.."vouchers")
     local voucherdefs = {}
@@ -114,6 +119,8 @@ function SMODS.INIT.TetrapakJokers()
             table.insert(voucherdefs, voucher)
         end
     end
+
+    table.insert(alldefs, voucherdefs)
 
     -- place voucherdefs in the correct order by the after field, ex: after = "emptycage"
     local function sort_voucherdefs(a, b)
@@ -135,6 +142,8 @@ function SMODS.INIT.TetrapakJokers()
             table.insert(blinddefs, blind)
         end
     end
+
+    table.insert(alldefs, blinddefs)
     
 
 
@@ -145,53 +154,7 @@ function SMODS.INIT.TetrapakJokers()
 
     
 
-    for _, jokerdef in pairs(jokerdefs) do
-        jokerdef:init()
-    end
-
-    for _, spectraldef in pairs(spectraldefs) do
-        spectraldef:init()
-    end
-
-    for _, voucherdef in pairs(voucherdefs) do
-        voucherdef:init()
-    end
-
-    for _, blinddef in pairs(blinddefs) do
-        blinddef:init()
-    end
-
-    for _, joker in pairs(Tetrapak.Jokers) do
-        joker:register()
-    end
-
-    for _, spectral in pairs(Tetrapak.Spectrals) do
-        spectral:register()
-    end
-
-    for _, voucher in pairs(Tetrapak.Vouchers) do
-        voucher:register()
-    end
-
-    for _, blind in pairs(Tetrapak.Blinds) do
-        blind:register()
-    end
-
-    for _, jokerdef in pairs(jokerdefs) do
-        jokerdef:load_effect()
-    end
-
-    for _, spectraldef in pairs(spectraldefs) do
-        spectraldef:load_effect()
-    end
-
-    for _, voucherdef in pairs(voucherdefs) do
-        voucherdef:load_effect()
-    end
-
-    for _, blinddef in pairs(blinddefs) do
-        blinddef:load_effect()
-    end
+    initRegisterAndLoad(alldefs)
 
     
     
@@ -243,6 +206,47 @@ function SMODS.INIT.TetrapakJokers()
     end
 
 
+end
+
+function initRegisterAndLoad(alldefs)
+    
+
+    for k, defs in pairs(alldefs) do
+        for k, def in pairs(defs) do
+            if def.init then
+                def.init()
+            end
+        end
+    end
+
+    Tetrapak.Registry = {
+        Jokers = Tetrapak.Jokers,
+        Spectrals = Tetrapak.Spectrals,
+        Vouchers = Tetrapak.Vouchers,
+        Blinds = Tetrapak.Blinds
+    }
+
+    for k, defs in pairs(Tetrapak.Registry) do
+        for k, def in pairs(defs) do
+            def:register()
+        end
+    end
+
+    
+
+    for k, defs in pairs(alldefs) do
+        for k, def in pairs(defs) do
+            if def.load_effect then
+                def.load_effect()
+            end
+        end
+    end
+
+
+
+
+    
+    
 end
 
 
@@ -355,109 +359,6 @@ function Load_atlas()
 end
 
 
-
-
-
-
-
-function Load_Config()
-    local mod = SMODS.findModByID(TETRAPAKID)
-    
- 
-    if not love.filesystem.getInfo(mod.path.."config.lua") then
-        print("No config file found for Tetrapak, creating")
-        local file = love.filesystem.newFile(mod.path.."config.lua")
-        local allcardnames = {}
-        for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."jokers")) do
-            table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
-        end
-
-        for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."spectrals")) do
-            table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
-        end
-
-        local conf = GetDefaultConfig()
-        for k, v in pairs(allcardnames) do
-            conf.Enabled[v] = true
-        end
-
-        Save_Config(conf)
-    end
-
-    local config = nil
-    local success, configLoader = pcall(love.filesystem.load, mod.path.."config.lua")
-    if success then
-        local success, loadedconfig = pcall(configLoader)
-        if not success then
-            -- Handle error in config
-            loadedconfig = GetDefaultConfig()
-        end
-
-        config = loadedconfig
-    else
-        -- Handle error in loading config
-        config = GetDefaultConfig()
-    end
-    Save_Config(config)
-
-    -- fill in Enabled with any new cards that have no entry
-    local allcardnames = {}
-    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."jokers")) do
-        table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
-    end
-
-    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."spectrals")) do
-        table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
-    end
-
-    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."vouchers")) do
-        table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
-    end
-
-    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."blinds")) do
-        table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
-    end
-
-    for k, v in pairs(allcardnames) do
-        if config.Enabled[v] == nil then
-            config.Enabled[v] = true
-        end
-    end
-    Save_Config(config)
-
-    G.TETRAPAK_Config = config
-    
-end
-
-
-function Save_Config(conf)
-    if not conf then
-        conf = G.TETRAPAK_Config
-    end
-    local mod = SMODS.findModByID(TETRAPAKID)
-    local file = love.filesystem.newFile(mod.path.."config.lua")
-    file:open("w")
-    file:write("return " .. table.tostring(conf))
-    file:close()
-end
-
-
-function GetDefaultConfig()
-   
-        return {
-            info = [[
-                This is the config file for Tetrapak. 
-                Set the value of each card to true to enable it, or false to disable it.
-                If you want to disable a card, you can also just delete the file from the jokers or spectrals folder.
-
-                there will be more options in the future.
-            ]],
-            Enabled = {
-
-            }
-        }
-    
-end
 
 
 function table.tostring(tbl, depth)

@@ -6,8 +6,8 @@ local function init()
         loc_txt = {
             name = "The Unseen",
             text = {
-                "After the second hand played,",
-                "adds a curse to your deck"
+                "When your second hand is",
+                "played, gives you a curse."
 
             }
             
