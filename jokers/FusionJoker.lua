@@ -1,4 +1,13 @@
 local function init()
+    local loc_text = {
+        name = "Fusion Joker",
+        text = {
+            "{X:mult,C:white} X#1# {} Mult",
+            "Can combine with itself for {X:mult,C:white}+#4#X{}.",
+            "{C:attention} #2# in #3# {} chance to",
+            "replace a cards in the shop",
+        }
+    }
     local fusionjoker = SMODS.Joker:new(
         "Fusion Joker",
         tpmakeID("fusion_joker"),
@@ -14,15 +23,8 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Fusion Joker",
-            text = {
-                "{X:mult,C:white} X#1# {} Mult",
-                "Can combine with itself for {X:mult,C:white}+#4#X{}.",
-                "{C:attention} #2# in #3# {} chance to",
-                "replace a cards in the shop",
-            }
-        },
+        loc_text,
+        
         3, -- rarity
         7, -- cost
         true,

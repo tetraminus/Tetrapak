@@ -1,6 +1,14 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Apotheosis",
+        text = {
+            "{C:inactive}RISE BEYOND THE LIMITS OF MORTALITY.{}",
+            "{C:inactive}UNWIND THE VERY THREADS OF FATE ITSELF.{}",
+            "{C:attention}Remove the seed of the run{}"
+        }
+    }
 
     local data ={
         name = "Apotheosis",
@@ -14,15 +22,7 @@ local function init()
             x = 0,
             y = 0
         },
-        loc_text = {
-            name = "Apotheosis",
-            text = {
-                "{C:inactive}RISE BEYOND THE LIMITS OF MORTALITY.{}",
-                "{C:inactive}UNWIND THE VERY THREADS OF FATE ITSELF.{}",
-                "{C:attention}Remove the seed of the run{}"
-            }
-        
-        },
+        loc_text = loc_text,
         cost = 6,
         discovered = true
 

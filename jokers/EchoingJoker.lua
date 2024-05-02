@@ -1,6 +1,13 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Echoing Joker",
+        text = {
+            "High Cards count as the last hand played",
+            "{C:inactive}Currently: #1#{}"
+        }
+    }
     local echoingjoker = SMODS.Joker:new(
         "Echoing Joker",
         tpmakeID("echoing_joker"),
@@ -14,13 +21,7 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Echoing Joker",
-            text = {
-                "High Cards count as the last hand played",
-                "Currently: #1#"
-            }
-        },
+        loc_text,
         3, -- rarity
         7, -- cost
         true,

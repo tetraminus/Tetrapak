@@ -1,6 +1,12 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Big Red Button",
+        text = {
+            "Reroll all your jokers and consumables."
+        }
+    }
     local big_red_button = SMODS.Joker:new(
         "Big Red Button",
         tpmakeID("big_red_button"),
@@ -12,12 +18,7 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Big Red Button",
-            text = {
-                "Reroll all your jokers and consumables.",
-            }
-        },
+        loc_text,
         2, -- rarity
         2, -- cost
         true,

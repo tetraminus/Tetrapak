@@ -1,4 +1,10 @@
 local function init()
+    local loc_text = {
+        name = "Demon Prison",
+        text = {
+            "You may disable curses."
+        }
+    }
 
     local data ={
         name = "DemonPrison",
@@ -12,13 +18,7 @@ local function init()
             x = 0,
             y = 0
         },
-        loc_text = {
-            name = "Demon Prison",
-            text = {
-                "You may disable curses."
-            }
-        
-        },
+        loc_text = loc_text,
         cost = 6,
         discovered = true,
         requires = {

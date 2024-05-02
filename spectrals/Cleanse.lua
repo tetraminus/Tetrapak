@@ -1,8 +1,14 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Cleanse",
+        text = {
+            "Removes #1# curse."
+        }
+    }
 
-    local data ={
+    local data = {
         name = "Cleanse",
         slug = tpmakeID("cleanse"),
         config = {
@@ -14,13 +20,7 @@ local function init()
             x = 0,
             y = 0
         },
-        loc_text = {
-            name = "Cleanse",
-            text = {
-                "Removes #1# curse."
-            }
-        
-        },
+        loc_text = loc_text,
         cost = 6,
         discovered = true
 

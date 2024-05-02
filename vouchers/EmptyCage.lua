@@ -1,5 +1,12 @@
 local function init()
 
+    local loc_text = {
+        name = "Empty Cage",
+        text = {
+            "You may disable jokers."
+        }
+    }
+
     local data ={
         name = "EmptyCage",
         slug = tpmakeID("emptycage"),
@@ -12,13 +19,7 @@ local function init()
             x = 0,
             y = 0
         },
-        loc_text = {
-            name = "Empty Cage",
-            text = {
-                "You may disable jokers."
-            }
-        
-        },
+        loc_text = loc_text,
         cost = 6,
         discovered = true
 

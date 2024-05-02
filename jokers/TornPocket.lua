@@ -2,6 +2,12 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Torn Pocket",
+        text = {
+            "Gain {C:attention}50%{} less money.",
+        }
+    }
     local TornPocket = SMODS.Joker:new(
         "Torn Pocket",
         tpmakeID("torn_pocket"),
@@ -11,12 +17,7 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Torn Pocket",
-            text = {
-                "Gain {C:attention}50%{} less money.",
-            }
-        },
+        loc_text,
         CURSERARITY,
         0,
         true,

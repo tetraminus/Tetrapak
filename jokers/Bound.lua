@@ -2,6 +2,12 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Bound",
+        text = {
+            "Does not give +1 joker slot",
+        }
+    }
     local Bound = SMODS.Joker:new(
         "Bound",
         tpmakeID("bound"),
@@ -11,12 +17,7 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Bound",
-            text = {
-                "Does not give +1 joker slot",
-            }
-        },
+        loc_text,
         CURSERARITY,
         0,
         true,

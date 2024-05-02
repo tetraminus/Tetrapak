@@ -2,6 +2,15 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Gamblin' Man",
+            text = {
+                "Multiply money gain by ",
+                "a random number between {C:attention}#1# {}and {C:attention}#2#.{}"
+            }
+    }
+    
+
     local GamblinMan = SMODS.Joker:new(
         "Gamblin Man",
         tpmakeID("gamblin_man"),
@@ -15,13 +24,7 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Gamblin' Man",
-            text = {
-                "Multiply money gain by ",
-                "a random number between {C:attention}#1# {}and {C:attention}#2#.{}"
-            }
-        },
+        loc_text,
         1,
         0,
         true,

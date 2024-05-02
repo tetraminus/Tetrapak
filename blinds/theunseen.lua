@@ -1,19 +1,19 @@
 
 local function init()
+
+    local loc_text = {
+        name = "The Unseen",
+        text = {
+            "When your second hand is",
+            "played, gives you a curse."
+
+        }
+    }
+
     local data = {
         name = "The Unseen",
         slug = tpmakeID("theunseen"),
-        loc_txt = {
-            name = "The Unseen",
-            text = {
-                "When your second hand is",
-                "played, gives you a curse."
-
-            }
-            
-        },
-
-        
+        loc_txt = loc_text,
         dollars = 5,
         mult = 2,
         pos = {x = 0, y = 0},

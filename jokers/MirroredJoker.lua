@@ -1,6 +1,13 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Mirrored Joker",
+        text = {
+            "Swaps the {C:chips}chips{} and",
+            "{C:red}mult{} of your hand."
+        }
+    }
 
     local mirroredjoker = SMODS.Joker:new(
         "Mirrored Joker",
@@ -13,13 +20,7 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Mirrored Joker",
-            text = {
-                "Swaps the {C:chips}chips{} and",
-                "{C:red}mult{} of your hand."
-            }
-        },
+        loc_text,
         3, -- rarity
         7, -- cost
         true,

@@ -1,6 +1,14 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Spoiled Spaghetti",
+        text = {
+            "{C:mult}#1# mult.{}",
+            "Loses 5 {C:mult}mult{} per turn."
+        
+        }
+    }
     local spoiledspaghetti = SMODS.Joker:new(
         "Spoiled Spaghetti",
         tpmakeID("spoiled_spaghetti"),
@@ -15,14 +23,7 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Spoiled Spaghetti",
-            text = {
-                "{C:mult}#1# mult.{}",
-                "Loses 5 {C:mult}mult{} per turn."
-            
-            }
-        },
+        loc_text,
         CURSERARITY,
         7,
         true,

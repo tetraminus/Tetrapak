@@ -1,6 +1,13 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Spirits",
+        text = {
+            "Gain a {C:dark_edition}Negative{}, {C:green}Uncommon{} Joker.",
+            "Gain a {C:".. CURSERARITY .. "}Curse{}"
+        }
+    }
 
     local data ={
         name = "Spirits",
@@ -14,14 +21,7 @@ local function init()
             x = 0,
             y = 0
         },
-        loc_text = {
-            name = "Spirits",
-            text = {
-                "Gain a {C:dark_edition}Negative{}, {C:green}Uncommon{} Joker.",
-                "Gain a {C:".. CURSERARITY .. "}Curse{}"
-            }
-        
-        },
+        loc_text = loc_text,
         cost = 6,
         discovered = true,
         atlas = tpconsumableSlug(name)

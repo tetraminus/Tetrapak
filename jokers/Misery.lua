@@ -2,6 +2,13 @@
 
 
 local function init()
+    local loc_text = {
+        name = "Misery",
+        text = {
+            "{X:mult,C:white} X#1# {} Mult",
+        
+        }
+    }
     local Misery = SMODS.Joker:new(
         "Misery",
         tpmakeID("misery"),
@@ -12,13 +19,7 @@ local function init()
             x = 0,
             y = 0
         },
-        {
-            name = "Misery",
-            text = {
-                "{X:mult,C:white} X#1# {} Mult",
-            
-            }
-        },
+        loc_text,
         CURSERARITY,
         0,
         true,
