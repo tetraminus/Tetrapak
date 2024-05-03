@@ -73,6 +73,8 @@ local function load_effect ()
                 end
             end
         end
+
+        return debuff_hand_ref(self, cards, hand, handname, check)
         
     end
 
