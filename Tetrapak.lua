@@ -334,9 +334,15 @@ function Load_atlas()
 end
 
 
-
+function table.addall(t1, t2)
+    for k, v in pairs(t2) do
+        table.insert(t1, tostring(k))
+    end
+    
+end
 
 function table.tostring(tbl, depth)
+    local MAX_DEPTH = 2
     if not depth then
         depth = 1
     end
@@ -344,7 +350,7 @@ function table.tostring(tbl, depth)
     local indents = str.rep("    ", depth)
 
     for k, v in pairs(tbl) do
-        MAX_DEPTH = 2
+        
         if depth > MAX_DEPTH then
             str = str .. indents .. k .. " = \"...\",\n"
             break

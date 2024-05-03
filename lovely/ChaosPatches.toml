@@ -1,0 +1,32 @@
+
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''G.TAROT_INTERRUPT = G.STATE'''
+position = "at"
+payload = '''
+if G.TAROT_INTERRUPT == nil then
+    G.TAROT_INTERRUPT = G.STATE
+end
+
+'''
+match_indent = true
+overwrite = false
+
+[[patches]]
+[patches.pattern]
+target = "functions/button_callbacks.lua"
+pattern = '''if card.ability.set == 'Booster' then G.GAME.PACK_INTERRUPT = G.STATE end'''
+position = "at"
+payload = '''
+if card.ability.set == 'Booster' and G.GAME.PACK_INTERRUPT == nil then
+    G.GAME.PACK_INTERRUPT = G.STATE
+end
+'''
+match_indent = true
+overwrite = false

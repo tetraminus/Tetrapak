@@ -1,0 +1,19 @@
+
+
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+[[patches]]
+[patches.pattern]
+target = "blind.lua"
+pattern = "card:set_debuff(false)"
+position = "at"
+payload = '''
+if not card.caged then
+    card:set_debuff(false)
+end
+'''
+match_indent = true
+overwrite = false
