@@ -83,6 +83,7 @@ local function initRegisterAndLoad(alldefs)
 end
 
 local function loadSprites(directory, folder, slugFunction, sprites)
+    
     local mod = SMODS.findModByID(TETRAPAKID)
     local spritesFiles = love.filesystem.getDirectoryItems(directory)
 
