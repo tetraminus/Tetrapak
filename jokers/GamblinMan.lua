@@ -26,7 +26,7 @@ local function init()
         },
         loc_text,
         1,
-        0,
+        4,
         true,
         true,
         false,

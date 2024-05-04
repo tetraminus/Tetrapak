@@ -23,7 +23,7 @@ local function init()
         },
         loc_text,
         3, -- rarity
-        7, -- cost
+        8, -- cost
         true,
         true,
         false,
