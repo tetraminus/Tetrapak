@@ -69,9 +69,11 @@ local function load_effect()
     end
 
     SMODS.Jokers[tpjokerSlug("fusion_joker")].loc_def = function(card)
+        local probabilities = G.GAME and G.GAME.probabilities.normal or 1
+
         return {
             card.ability.extra.Xmult,
-            G.GAME.probabilities.normal,
+            probabilities,
             card.ability.extra.chance,
             card.ability.extra.fusemult
         }

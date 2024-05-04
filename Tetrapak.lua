@@ -39,6 +39,8 @@ CURSERARITY = tpmakeID("Curses")
 
 Tetrapak = {}
 
+GENPAGE = true
+
 
 
 
@@ -50,6 +52,7 @@ function SMODS.INIT.TetrapakJokers()
     
 
     love.filesystem.load(modpath.."ConfigHelper.lua")()
+    love.filesystem.load(modpath.."WebGenerator.lua")()
 
 
 
@@ -217,6 +220,11 @@ function SMODS.INIT.TetrapakJokers()
         
     end
 
+
+
+    if GENPAGE then
+        WebGenerator:generateWeb()
+    end 
 
 end
 
