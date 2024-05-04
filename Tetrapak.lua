@@ -41,7 +41,117 @@ Tetrapak = {}
 
 GENPAGE = true
 
+local function initRegisterAndLoad(alldefs)
+    
 
+    for k, defs in pairs(alldefs) do
+        for k, def in pairs(defs) do
+            if def.init then
+                def.init()
+            end
+        end
+    end
+
+    Tetrapak.Registry = {
+        Jokers = Tetrapak.Jokers,
+        Spectrals = Tetrapak.Spectrals,
+        Vouchers = Tetrapak.Vouchers,
+        Blinds = Tetrapak.Blinds
+    }
+
+    for k, defs in pairs(Tetrapak.Registry) do
+        for k, def in pairs(defs) do
+            def:register()
+        end
+    end
+
+    
+
+    for k, defs in pairs(alldefs) do
+        for k, def in pairs(defs) do
+            if def.load_effect then
+                def.load_effect()
+            end
+        end
+    end
+
+
+
+
+    
+    
+end
+
+local function loadSprites(directory, folder, slugFunction, sprites)
+    local mod = SMODS.findModByID(TETRAPAKID)
+    local spritesFiles = love.filesystem.getDirectoryItems(directory)
+
+    for k, file in pairs(spritesFiles) do
+        if string.find(file, ".png") then
+            name = string.sub(file, 1, string.len(file) - 4)
+
+            local sprite = SMODS.Sprite:new(
+                slugFunction(name),
+                mod.path,
+                folder .. "/" .. file,
+                71,
+                95,
+                "asset_atli"
+            )
+
+            table.insert(sprites, sprite)
+            print("Loaded sprite: " .. file)
+        end
+          
+    end
+end
+
+local function Load_atlas()
+
+    local mod = SMODS.findModByID(TETRAPAKID)
+    local sprites = {}
+
+    -- jokers
+    loadSprites(mod.path.."assets/1x/jokers", "jokers", tpjokerSlug, sprites)
+
+    -- spectrals
+    loadSprites(mod.path.."assets/1x/spectrals", "spectrals", tpconsumableSlug, sprites)
+
+    -- vouchers
+    loadSprites(mod.path.."assets/1x/vouchers", "vouchers", tpvoucherSlug, sprites)
+
+  
+
+    -- blinds
+    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/blinds")
+
+    for k, file in pairs(spritesFiles) do
+        if string.find(file, ".png") then
+
+            name = string.sub(file, 1, string.len(file) - 4)
+
+            local sprite = SMODS.Sprite:new(
+                tpblindSlug(name),
+                mod.path,
+                "blinds/" .. file,
+                34,
+                34,
+                "animation_atli",
+                21
+            )
+
+            table.insert(sprites, sprite)
+            print("Loaded sprite: " .. file)
+
+        end
+    end
+
+
+
+    for k, sprite in pairs(sprites) do
+        sprite:register()
+    end
+end
 
 
 function SMODS.INIT.TetrapakJokers()
@@ -228,118 +338,10 @@ function SMODS.INIT.TetrapakJokers()
 
 end
 
-function initRegisterAndLoad(alldefs)
-    
-
-    for k, defs in pairs(alldefs) do
-        for k, def in pairs(defs) do
-            if def.init then
-                def.init()
-            end
-        end
-    end
-
-    Tetrapak.Registry = {
-        Jokers = Tetrapak.Jokers,
-        Spectrals = Tetrapak.Spectrals,
-        Vouchers = Tetrapak.Vouchers,
-        Blinds = Tetrapak.Blinds
-    }
-
-    for k, defs in pairs(Tetrapak.Registry) do
-        for k, def in pairs(defs) do
-            def:register()
-        end
-    end
-
-    
-
-    for k, defs in pairs(alldefs) do
-        for k, def in pairs(defs) do
-            if def.load_effect then
-                def.load_effect()
-            end
-        end
-    end
 
 
 
 
-    
-    
-end
-
-
-function loadSprites(directory, folder, slugFunction, sprites)
-    local mod = SMODS.findModByID(TETRAPAKID)
-    local spritesFiles = love.filesystem.getDirectoryItems(directory)
-
-    for k, file in pairs(spritesFiles) do
-        if string.find(file, ".png") then
-            name = string.sub(file, 1, string.len(file) - 4)
-
-            local sprite = SMODS.Sprite:new(
-                slugFunction(name),
-                mod.path,
-                folder .. "/" .. file,
-                71,
-                95,
-                "asset_atli"
-            )
-
-            table.insert(sprites, sprite)
-            print("Loaded sprite: " .. file)
-        end
-          
-    end
-end
-
-function Load_atlas()
-
-    local mod = SMODS.findModByID(TETRAPAKID)
-    local sprites = {}
-
-    -- jokers
-    loadSprites(mod.path.."assets/1x/jokers", "jokers", tpjokerSlug, sprites)
-
-    -- spectrals
-    loadSprites(mod.path.."assets/1x/spectrals", "spectrals", tpconsumableSlug, sprites)
-
-    -- vouchers
-    loadSprites(mod.path.."assets/1x/vouchers", "vouchers", tpvoucherSlug, sprites)
-
-  
-
-    -- blinds
-    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/blinds")
-
-    for k, file in pairs(spritesFiles) do
-        if string.find(file, ".png") then
-
-            name = string.sub(file, 1, string.len(file) - 4)
-
-            local sprite = SMODS.Sprite:new(
-                tpblindSlug(name),
-                mod.path,
-                "blinds/" .. file,
-                34,
-                34,
-                "animation_atli",
-                21
-            )
-
-            table.insert(sprites, sprite)
-            print("Loaded sprite: " .. file)
-
-        end
-    end
-
-
-
-    for k, sprite in pairs(sprites) do
-        sprite:register()
-    end
-end
 
 
 function table.addall(t1, t2)

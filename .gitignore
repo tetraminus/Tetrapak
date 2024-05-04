@@ -1,3 +1,5 @@
 lib/**
 config.lua
 **.DS_Store
+web/**
+
