@@ -9,24 +9,11 @@ local function init()
 
     local data ={
         name = "EmptyCage",
-        slug = tpmakeID("emptycage"),
-        config = {
-            extra = {
-                
-            }
-        },
-        pos = {
-            x = 0,
-            y = 0
-        },
-        loc_text = loc_text,
-        cost = 6,
-        discovered = true
-
+        key = "emptycage",
+        loc_txt = loc_text,
     }
 
-    local EmptyCage = SMODS.Voucher:new(data.name, data.slug, data.config, data.pos, data.loc_text, data.cost, true, data.discovered)
-
+    local EmptyCage = SMODS.Voucher(data)
 
     Tetrapak.Vouchers[tpvoucherSlug("emptycage")] = EmptyCage
     

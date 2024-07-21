@@ -1,43 +1,38 @@
 
 
 local function init()
+
     local loc_text = {
         name = "Blast Shower",
         text = {
             "Sell this card to remove a random curse."
         }
     }
-    local blast_shower = SMODS.Joker:new(
-        "Blast Shower",
-        tpmakeID("blast_shower"),
+    local blast_shower = SMODS.Joker(
         {
-            extra = {
-                Removes = 1
+            name = "Blast Shower",
+            key = "blast_shower",
+            loc_txt = loc_text,
+            rarity = 2, -- rarity
+            cost = 4, -- cost
+            config = {
+                extra = {
+                    Removes = 1
+                }
             }
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        2, -- rarity
-        6, -- cost
-        true,
-        true,
-        false,
-        false,
-        "Blast Shower"
+        }
+
     )
     
     
-    Tetrapak.Jokers["j_" .. tpmakeID("blast_shower")] = blast_shower
+    Tetrapak.Jokers[tpjokerSlug("blast_shower")] = blast_shower
     
 end
 
 local function load_effect()
 
-    
-    SMODS.Jokers[tpjokerSlug("blast_shower")].calculate = function(card, context)
+    print(tpjokerSlug("blast_shower"))
+    SMODS.Centers[tpjokerSlug("blast_shower")].calculate = function(card, context)
         if card.ability.name == "Blast Shower" and context.selling_self then
     
             local eligible_strength_jokers = {}

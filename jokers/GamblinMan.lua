@@ -11,33 +11,24 @@ local function init()
     }
     
 
-    local GamblinMan = SMODS.Joker:new(
-        "Gamblin Man",
-        tpmakeID("gamblin_man"),
+    local GamblinMan = SMODS.Joker(
         {
-            extra = {
-                min = -0.5,
-                max = 2
-            }
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        1,
-        4,
-        true,
-        true,
-        false,
-        true,
-        "Gamblin Man"
-        
+            name = "Gamblin' Man",
+            key = "gamblin_man",
+            loc_txt = loc_text,
+            rarity = 1, -- rarity
+            cost = 2, -- cost
+            config = {
+                extra = {
+                    min = -0.5,
+                    max = 2
+                }
+            },
+
+
+        }
     )
-    
-    Tetrapak.Jokers["j_" .. tpmakeID("gamblin_man")] = GamblinMan
-    
-    
+        
 end
 
 local function load_effect()
@@ -68,7 +59,7 @@ local function load_effect()
         original_ease_dollars(mod, instant)
     end
 
-    SMODS.Jokers[tpjokerSlug("gamblin_man")].loc_def =function (card)
+    SMODS.Centers[tpjokerSlug("gamblin_man")].loc_def =function (card)
         
         return {
             card.ability.extra.min,

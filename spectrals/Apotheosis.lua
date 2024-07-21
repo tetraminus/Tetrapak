@@ -1,18 +1,26 @@
 
 
 local function init()
-    local mod = SMODS.findModByID(TETRAPAKID)
+    local mod = SMODS.current_mod
 
-    local aposoul = SMODS.Sprite:new(
-        tpconsumableSlug("ApoSoul"),
-        mod.path,
-        "extra/ApoSoul.png",
-        86,
-        79,
-        "asset_atli"
+    local aposoul = SMODS.Sprite(
+
+        -- tpconsumableSlug("ApoSoul"),
+        -- mod.path,
+        -- "extra/ApoSoul.png",
+        -- 86,
+        -- 79,
+        -- "asset_atli"
+        {
+            key = "ApoSoul",
+            path = "extra/ApoSoul.png",
+            px = 86,
+            py = 79,
+            atlas = "ASSET_ATLAS"
+        }
+
+
     )
-
-    aposoul:register()
 
 
     local loc_text = {
@@ -24,26 +32,16 @@ local function init()
         }
     }
 
-    local data ={
+    local data = {
         name = "Apotheosis",
-        slug = tpmakeID("apotheosis"),
-        config = {
-            extra = {
-                
-            }
-        },
-        pos = {
-            x = 0,
-            y = 0
-        },
-        
-        loc_text = loc_text,
+        key = tpmakeID("apotheosis"),
+        set = "Spectral",
+        loc_txt = loc_text,
         cost = 6,
-        discovered = true
 
     }
 
-    local Apotheosis = SMODS.Spectral:new(data.name, data.slug, data.config, data.pos, data.loc_text, data.cost, true, data.discovered)
+    local Apotheosis = SMODS.Consumable(data)
     
 
     Tetrapak.Spectrals[tpmakeID("apotheosis")] = Apotheosis
@@ -71,7 +69,7 @@ local function load_effect()
         end
 
 
-        SMODS.Spectrals[tpconsumableSlug("apotheosis")].soul_pos = {
+        SMODS.Centers[tpconsumableSlug("apotheosis")].soul_pos = {
             x = 0,
             y = 0
         }
@@ -92,16 +90,16 @@ local function load_effect()
             print(self.config.center.name)
             if self.config.center.name == "Apotheosis" then
                 
-                self.children.floating_sprite = Sprite(self.T.x-26, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS[tpconsumableSlug("ApoSoul")], self.config.center.soul_pos)
+                self.children.floating_sprite = Sprite(self.T.x-26, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["tetrapak_ApoSoul"], self.config.center.soul_pos)
             end
         end
     
-        SMODS.Spectrals[tpconsumableSlug("apotheosis")].use = function(card, area, copier)
+        SMODS.Centers[tpconsumableSlug("apotheosis")].use = function(card, area, copier)
             G.GAME.pseudorandom.seed = tostring(math.random(1, 999999))
             G.GAME.seeded = false
         end
 
-        SMODS.Spectrals[tpconsumableSlug("apotheosis")].can_use = function(card)
+        SMODS.Centers[tpconsumableSlug("apotheosis")].can_use = function(card)
             return true
         end
 

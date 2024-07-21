@@ -8,30 +8,22 @@ local function init()
             "replace a cards in the shop",
         }
     }
-    local fusionjoker = SMODS.Joker:new(
-        "Fusion Joker",
-        tpmakeID("fusion_joker"),
+    local fusionjoker = SMODS.Joker(
         {
-            extra = {
-                Xmult = 1,
-                fusemult = 0.5,
-                chance = 5,
-                fusions = 0
+            name = "Fusion Joker",
+            key = "fusion_joker",
+            loc_txt = loc_text,
+            rarity = 3, -- rarity
+            cost = 6, -- cost
+            config = {
+                extra = {
+                    Xmult = 1,
+                    fusemult = 0.5,
+                    chance = 5,
+                    fusions = 0
+                }
             }
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        
-        3, -- rarity
-        6, -- cost
-        true,
-        true,
-        true,
-        true,
-        "Fusion Joker"
+        }
     )
     
     
@@ -41,7 +33,7 @@ end
 
 local function load_effect()
 
-    SMODS.Jokers[tpjokerSlug("fusion_joker")].calculate = function(card, context)
+    SMODS.Centers[tpjokerSlug("fusion_joker")].calculate = function(card, context)
         if context.cardarea == G.jokers then
             if SMODS.end_calculate_context(context) then
                 return {
@@ -68,7 +60,7 @@ local function load_effect()
         end
     end
 
-    SMODS.Jokers[tpjokerSlug("fusion_joker")].loc_def = function(card)
+    SMODS.Centers[tpjokerSlug("fusion_joker")].loc_def = function(card)
         local probabilities = G.GAME and G.GAME.probabilities.normal or 1
 
         return {

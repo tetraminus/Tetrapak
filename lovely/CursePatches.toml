@@ -10,7 +10,8 @@ pattern = "card_type = (debuffed and AUT.card_type ~= 'Enhanced') and localize('
 position = "after"
 payload = '''
 if AUT.card_type == 'Joker' and card.config.center.rarity == (CURSERARITY) then
-    card_type = localize('k_' .. CURSERARITY) 
+    print("k_"..CURSERARITY)
+    card_type = localize("k_"..CURSERARITY) 
 end
 '''
 match_indent = true

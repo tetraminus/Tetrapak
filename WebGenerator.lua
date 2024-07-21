@@ -20,14 +20,26 @@ local function toWebRarity(rarity )
 
 end
 
-local function getDefaultLocText(center)
+local function getDefaultLocText(card)
+    if not card.config or not card.config.center then
+        local retval = card.loc_text
+        if type(retval) == "table" then
+            return retval
+        end
+        return card.loc_txt
+    end
+    print("card", table.tostring(card))
+    local center = card.config.center
 
     if not center.config then
+        local retval = center.loc_text
+        if type(retval) == "table" then
+            return retval
+        end
         return center.loc_txt
     end
 
- -- create dummy card to get their
-    print("center", table.tostring(center))
+
 
     local card = {
         
@@ -46,7 +58,10 @@ local function getDefaultLocText(center)
 
     
 
-    local loc_txt = center.loc_txt
+    local loc_txt = center.loc_text
+    if type(loc_txt) ~= "table" then
+        loc_txt = center.loc_txt
+    end
 
     for k, v in pairs(vars) do
         for k2, v2 in pairs(loc_txt.text) do
@@ -86,7 +101,7 @@ local function CreateWebEntry(center, type)
     
     FinalEntry = FinalEntry .. "],\n" 
     
-    local imgname = center.slug
+    local imgname = center.key
     --remove everything before the generated id, as the image is
     local toremove = tpmakeID("") -- remove the generated id and all before it
     imgname = string.sub(imgname, string.find(imgname, toremove) + string.len(toremove))
@@ -147,7 +162,7 @@ function WebGenerator:generateWeb()
 
     
     
-    local mod = SMODS.findModByID(TETRAPAKID)
+    local mod = SMODS.current_mod
     local modpath = mod.path
 
     -- create the web folder

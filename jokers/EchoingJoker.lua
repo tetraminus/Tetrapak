@@ -8,27 +8,14 @@ local function init()
             "{C:inactive}Currently: #1#{}"
         }
     }
-    local echoingjoker = SMODS.Joker:new(
-        "Echoing Joker",
-        tpmakeID("echoing_joker"),
+    local echoingjoker = SMODS.Joker(
         {
-            
-            extra = {
-
-            }
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        3, -- rarity
-        8, -- cost
-        true,
-        true,
-        false,
-        true,
-        "Echoing Joker"
+            name = "Echoing Joker",
+            key = ("echoing_joker"),
+            loc_txt = loc_text,
+            rarity = 3, -- rarity
+            cost = 6, -- cost
+        }
     )
     
     
@@ -40,7 +27,7 @@ local function load_effect()
 
     
 
-    SMODS.Jokers[tpjokerSlug("echoing_joker")].loc_def = function (self, player)
+    SMODS.Centers[tpjokerSlug("echoing_joker")].loc_def = function (self, player)
         local var
         if G.Game and G.GAME.last_hand_played then
             var = G.GAME.last_hand_played

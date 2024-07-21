@@ -3,7 +3,7 @@
 
 
 function Load_Config()
-    local mod = SMODS.findModByID(TETRAPAKID)
+    local mod = SMODS.current_mod
     
  
     if not love.filesystem.getInfo(mod.path.."config.lua") then
@@ -76,7 +76,7 @@ function Save_Config(conf)
     if not conf then
         conf = G.TETRAPAK_Config
     end
-    local mod = SMODS.findModByID(TETRAPAKID)
+    local mod = SMODS.current_mod
     local file = love.filesystem.newFile(mod.path.."config.lua")
     file:open("w")
     file:write("return " .. table.tostring(conf))

@@ -6,29 +6,13 @@ local function init()
         }
     }
 
-    local data ={
+    local data = {
         name = "DemonPrison",
-        slug = tpmakeID("demonprison"),
-        config = {
-            extra = {
-                
-            }
-        },
-        pos = {
-            x = 0,
-            y = 0
-        },
-        loc_text = loc_text,
-        cost = 6,
-        discovered = true,
-        requires = {
-            tpvoucherSlug("emptycage")
-        }
-
+        key = "demonprison",
+        loc_txt = loc_text,
     }
 
-    local DemonPrison = SMODS.Voucher:new(data.name, data.slug, data.config, data.pos, data.loc_text, data.cost, true, data.discovered, nil , data.requires)
-
+    local DemonPrison = SMODS.Voucher(data)
 
     Tetrapak.Vouchers[tpvoucherSlug("demonprison")] = DemonPrison
     

@@ -12,35 +12,14 @@ local function init()
 
     local data = {
         name = "The Unseen",
-        slug = tpmakeID("theunseen"),
+        key = "theunseen",
         loc_txt = loc_text,
-        dollars = 5,
-        mult = 2,
-        pos = {x = 0, y = 0},
-        boss = {
-            min = 1,
-            max = 10
-        },
-        color = HEX('aaa0aa'),
-        boss_colour = HEX('aa00aa'),
-        defeated = true,
         
         
     }
     
-    local theunseen = SMODS.Blind:new(
-        data.name,
-        data.slug,
-        data.loc_txt,
-        data.dollars,
-        data.mult,
-        nil,
-        nil,
-        data.pos,
-        data.boss,
-        data.boss_colour,
-        data.defeated,
-        tpblindSlug("theunseen")
+    local theunseen = SMODS.Blind(
+        data
     )
     
     Tetrapak.Blinds[tpblindSlug("theunseen")] = theunseen

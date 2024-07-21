@@ -9,27 +9,17 @@ local function init()
         
         }
     }
-    local spoiledspaghetti = SMODS.Joker:new(
-        "Spoiled Spaghetti",
-        tpmakeID("spoiled_spaghetti"),
+    local spoiledspaghetti = SMODS.Joker(
         {
-            
-            extra = {
-                mult = 0
+            name = "Spoiled Spaghetti",
+            key = ("spoiled_spaghetti"),
+            loc_txt = loc_text,
+            rarity = CURSERARITY, -- rarity
+            cost = 6, -- cost
+            config = {
+                extra = {mult = 0}
             }
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        CURSERARITY,
-        7,
-        true,
-        true,
-        false,
-        true,
-        "Spoiled Spaghetti"
+        }
     )
     
     Tetrapak.Jokers["j_" .. tpmakeID("spoiled_spaghetti")] = spoiledspaghetti
@@ -39,7 +29,7 @@ end
 
 local function load_effect()
 
-    SMODS.Jokers["j_" .. tpmakeID("spoiled_spaghetti")].calculate = function(card, context)
+    SMODS.Centers[tpjokerSlug("spoiled_spaghetti")].calculate = function(card, context)
         if context.end_of_round and not context.blueprint and not (context.individual or context.repetition) then
             card.ability.mult = card.ability.mult - 5
         
@@ -63,7 +53,7 @@ local function load_effect()
 
 
 
-    SMODS.Jokers["j_" .. tpmakeID("spoiled_spaghetti")].loc_def = function(card)
+    SMODS.Centers[tpjokerSlug("spoiled_spaghetti")].loc_def = function(card)
         if card.ability.mult == nil then
             card.ability.mult = 0
         end

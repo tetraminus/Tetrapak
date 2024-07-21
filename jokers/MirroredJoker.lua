@@ -9,25 +9,14 @@ local function init()
         }
     }
 
-    local mirroredjoker = SMODS.Joker:new(
-        "Mirrored Joker",
-        tpmakeID("mirrored_joker"),
+    local mirroredjoker = SMODS.Joker(
         {
-            pinned = true,
-            extra = {}
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        3, -- rarity
-        6, -- cost
-        true,
-        true,
-        true,
-        true,
-        "Mirrored Joker"
+            name = "Mirrored Joker",
+            key = ("mirrored_joker"),
+            loc_txt = loc_text,
+            rarity = 2, -- rarity
+            cost = 6, -- cost
+        }
     )
     
     
@@ -37,7 +26,7 @@ end
 
 local function load_effect()
 
-    SMODS.Jokers["j_" .. tpmakeID("mirrored_joker")].calculate = function(card, context)
+    SMODS.Centers[tpjokerSlug("mirrored_joker")].calculate = function(card, context)
         if context.cardarea == G.jokers and SMODS.end_calculate_context(context) then
             local currChips =  hand_chips
             local currMult = mult

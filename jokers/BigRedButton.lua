@@ -7,25 +7,14 @@ local function init()
             "Reroll all your jokers and consumables."
         }
     }
-    local big_red_button = SMODS.Joker:new(
-        "Big Red Button",
-        tpmakeID("big_red_button"),
+    local big_red_button = SMODS.Joker(
         {
-            pinned = true,
-            extra = {}
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        2, -- rarity
-        6, -- cost
-        true,
-        true,
-        false,
-        false,
-        "Big Red Button"
+        name = "Big Red Button",
+        key = ("big_red_button"),
+        loc_txt = loc_text,
+        rarity = 2, -- rarity
+        cost = 6, -- cost
+        }
     )
     
     

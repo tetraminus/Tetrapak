@@ -8,24 +8,14 @@ local function init()
             "Gain {C:attention}50%{} less money.",
         }
     }
-    local TornPocket = SMODS.Joker:new(
-        "Torn Pocket",
-        tpmakeID("torn_pocket"),
+    local TornPocket = SMODS.Joker(
         {
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        CURSERARITY,
-        0,
-        true,
-        true,
-        false,
-        true,
-        "Torn Pocket"
-        
+            name = "Torn Pocket",
+            key = ("torn_pocket"),
+            loc_txt = loc_text,
+            rarity = CURSERARITY, -- rarity
+            cost = 6, -- cost
+        }
     )
     
     Tetrapak.Jokers["j_" .. tpmakeID("torn_pocket")] = TornPocket

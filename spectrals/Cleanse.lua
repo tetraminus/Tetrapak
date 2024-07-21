@@ -10,24 +10,18 @@ local function init()
 
     local data = {
         name = "Cleanse",
-        slug = tpmakeID("cleanse"),
+        key = tpmakeID("cleanse"),
+        set = "Spectral",
         config = {
             extra = {
                 Removes = 1
             }
         },
-        pos = {
-            x = 0,
-            y = 0
-        },
-        loc_text = loc_text,
-        cost = 6,
-        discovered = true
-
+        
+        loc_txt = loc_text,
     }
 
-    local Cleanse = SMODS.Spectral:new(data.name, data.slug, data.config, data.pos, data.loc_text, data.cost, true, data.discovered)
-
+    local Cleanse = SMODS.Consumable(data)
 
     Tetrapak.Spectrals[tpmakeID("cleanse")] = Cleanse
     
@@ -36,7 +30,7 @@ end
 
 local function load_effect()
     
-        SMODS.Spectrals[tpconsumableSlug("cleanse")].use = function(card, area, copier)
+        SMODS.Centers[tpconsumableSlug("cleanse")].use = function(card, area, copier)
             local eligible_strength_jokers = {}
             for k, v in pairs(G.jokers.cards) do
                 if v.ability.set == 'Joker' and v.config.center.rarity == CURSERARITY then
@@ -54,7 +48,7 @@ local function load_effect()
             end
         end
 
-        SMODS.Spectrals[tpconsumableSlug("cleanse")].can_use = function(card)
+        SMODS.Centers[tpconsumableSlug("cleanse")].can_use = function(card)
             local eligible_strength_jokers = {}
             for k, v in pairs(G.jokers.cards) do
                 if v.ability.set == 'Joker' and v.config.center.rarity == CURSERARITY then
@@ -68,7 +62,7 @@ local function load_effect()
             return #eligible_strength_jokers > 0
         end
 
-        SMODS.Spectrals[tpconsumableSlug("cleanse")].loc_def = function(center, info)
+        SMODS.Centers[tpconsumableSlug("cleanse")].loc_def = function(center, info)
             return {
                 center.config.extra.Removes
             }

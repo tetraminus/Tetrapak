@@ -1,6 +1,7 @@
 --- STEAMODDED HEADER
 --- MOD_NAME: Tetrapak
 --- MOD_ID: tetraminus_tetrapak
+--- PREFIX: tetrapak
 --- MOD_AUTHOR: [tetraminus]
 --- MOD_DESCRIPTION: A Content pack for Balatro.
 --- DISPLAY_NAME: Tetrapak
@@ -13,33 +14,63 @@
 TETRAPAKID = "tetraminus_tetrapak"
 
 tpmakeID = function(id)
-    return TETRAPAKID .. "_" .. id
+    --to lazy to refactor all the old code
+    return id
 end
 
 tpjokerSlug = function(id)
-    return "j_" .. tpmakeID(id)
+    return "j_tetrapak_" .. tpmakeID(id)
 end
 
 tpconsumableSlug = function(id)
-    return "c_" .. tpmakeID(id)
+    return "c_tetrapak_" .. tpmakeID(id)
 end
 
 tpvoucherSlug = function(id)
-    return "v_" .. tpmakeID(id)
+    return "v_tetrapak_" .. tpmakeID(id)
 end
 
 tpblindSlug = function(id)
-    return "bl_" .. tpmakeID(id)
+    return "bl_tetrapak_" .. tpmakeID(id)
 end
 
 
 
-CURSERARITY = tpmakeID("Curses")
+CURSERARITY = "tetrapak_Curses"
 
 
 Tetrapak = {}
 
 GENPAGE = true
+
+function table.tostring(tbl, depth)
+    local MAX_DEPTH = 3
+    if not depth then
+        depth = 1
+    end
+    
+    local indents = string.rep("    ", depth)
+    local str =  "{\n"
+
+    for k, v in pairs(tbl) do
+        
+        if depth > MAX_DEPTH then
+            str = str .. indents .. k .. " = \"...\",\n"
+            break
+        end
+        if type(v) == "table" then
+            str = str .. indents .. k .. " = " .. table.tostring(v, depth + 1) .. ",\n"
+        elseif type(v) == "string" then
+            str = str .. indents .. k .. " = [[" .. v .. "]],\n"
+        else
+            str = str .. indents .. k .. " = " .. tostring(v) .. ",\n"
+        end
+    end
+    
+    str = str .. indents .. "}"
+    return str
+end
+
 
 local function initRegisterAndLoad(alldefs)
     
@@ -59,12 +90,6 @@ local function initRegisterAndLoad(alldefs)
         Blinds = Tetrapak.Blinds
     }
 
-    for k, defs in pairs(Tetrapak.Registry) do
-        for k, def in pairs(defs) do
-            def:register()
-        end
-    end
-
     
 
     for k, defs in pairs(alldefs) do
@@ -74,31 +99,28 @@ local function initRegisterAndLoad(alldefs)
             end
         end
     end
-
-
-
-
-    
     
 end
 
 local function loadSprites(directory, folder, slugFunction, sprites)
     
-    local mod = SMODS.findModByID(TETRAPAKID)
+    local mod = SMODS.current_mod
     local spritesFiles = love.filesystem.getDirectoryItems(directory)
+
+
+    
 
     for k, file in pairs(spritesFiles) do
         if string.find(file, ".png") then
             name = string.sub(file, 1, string.len(file) - 4)
-
-            local sprite = SMODS.Sprite:new(
-                slugFunction(name),
-                mod.path,
-                folder .. "/" .. file,
-                71,
-                95,
-                "asset_atli"
-            )
+            
+            local sprite = SMODS.Sprite({
+                key = (name),
+                path = folder .. "/" .. file,
+                px=71,
+                py=95,
+                atlas = "ASSET_ATLAS"
+            })
 
             table.insert(sprites, sprite)
             print("Loaded sprite: " .. file)
@@ -109,9 +131,16 @@ end
 
 local function Load_atlas()
 
-    local mod = SMODS.findModByID(TETRAPAKID)
+    local mod = SMODS.current_mod
     local sprites = {}
+    for k, v in pairs(Tetrapak.Registry) do
+        for k, v in pairs(v) do
+            print(v.atlas)
+            --v.atlas = "ASSET_ATLAS"
+        end
+    end
 
+    
     -- jokers
     loadSprites(mod.path.."assets/1x/jokers", "jokers", tpjokerSlug, sprites)
 
@@ -121,7 +150,6 @@ local function Load_atlas()
     -- vouchers
     loadSprites(mod.path.."assets/1x/vouchers", "vouchers", tpvoucherSlug, sprites)
 
-  
 
     -- blinds
     local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/blinds")
@@ -131,14 +159,21 @@ local function Load_atlas()
 
             name = string.sub(file, 1, string.len(file) - 4)
 
-            local sprite = SMODS.Sprite:new(
-                tpblindSlug(name),
-                mod.path,
-                "blinds/" .. file,
-                34,
-                34,
-                "animation_atli",
-                21
+            local sprite = SMODS.Sprite(--{
+                -- tpblindSlug(name),
+                -- mod.path,
+                -- "blinds/" .. file,
+                -- 34,
+                -- 34,
+                -- "animation_atli",
+                -- 21}
+                {
+                key = tpblindSlug(name),
+                path = "blinds/" .. file,
+                px=34,
+                py=34,
+                atlas = "ASSET_ATLAS"
+            }
             )
 
             table.insert(sprites, sprite)
@@ -150,13 +185,13 @@ local function Load_atlas()
 
 
     for k, sprite in pairs(sprites) do
-        sprite:register()
+        --sprite:register()
     end
 end
 
 
-function SMODS.INIT.TetrapakJokers()
-    local mod = SMODS.findModByID(TETRAPAKID)
+
+    local mod = SMODS.current_mod
     local modpath = mod.path
 
     -- load stuff
@@ -168,7 +203,7 @@ function SMODS.INIT.TetrapakJokers()
 
 
     Load_Config()
-    Load_atlas()
+    
     
     
 
@@ -176,15 +211,18 @@ function SMODS.INIT.TetrapakJokers()
     
     G.C.RARITY[CURSERARITY] = HEX("444444")
 
-    G.localization.misc.dictionary['k_'.. CURSERARITY] = "Curse"
-    G.localization.descriptions.Other[tpmakeID('curse_tip')] = {
-        name = "Curse",
-        text = {
-            "This card is cursed.",
-            "It cannot be sold.",
-            "+1 Joker slot"
+    
+    SMODS.current_mod.process_loc_text = function()
+        G.localization.misc.dictionary["k_"..CURSERARITY] = "Curse"
+        G.localization.descriptions.Other["k_curse_tip"] = {
+            name = "Curse",
+            text = {
+                "This card is cursed.",
+                "It cannot be sold.",
+                "+1 Joker slot"
+            }
         }
-    }
+    end
 
     local loc_colour_ref = loc_colour
     function loc_colour(key)
@@ -197,7 +235,7 @@ function SMODS.INIT.TetrapakJokers()
 	function get_badge_colour(key)
 		local fromRef = get_badge_colourref(key)
 	
-		if key == 'k_' .. CURSERARITY then return HEX("444444") 
+		if key == CURSERARITY then return HEX("444444") 
 		else return fromRef end
 	end
     Tetrapak.Registry = {}
@@ -281,7 +319,7 @@ function SMODS.INIT.TetrapakJokers()
     
 
     initRegisterAndLoad(alldefs)
-
+    Load_atlas()
     
     
 
@@ -317,14 +355,14 @@ function SMODS.INIT.TetrapakJokers()
         return 
     end
     -- add curse tooltips
-    for k, v in pairs(SMODS.Jokers) do
+    for k, v in pairs(SMODS.Centers) do
         if v.rarity == CURSERARITY then
             local old_tooltip = v.tooltip
             v.tooltip = function (_c, info_queue)
                 if old_tooltip then
                     old_tooltip(_c, info_queue)
                 end
-                table.insert(info_queue, { set = 'Other', key = tpmakeID('curse_tip'), vars = {} })
+                info_queue[#info_queue + 1] = { set = 'Other', key = 'k_curse_tip'}
                 
             end
         end
@@ -337,7 +375,6 @@ function SMODS.INIT.TetrapakJokers()
         WebGenerator:generateWeb()
     end 
 
-end
 
 
 
@@ -352,29 +389,3 @@ function table.addall(t1, t2)
     
 end
 
-function table.tostring(tbl, depth)
-    local MAX_DEPTH = 2
-    if not depth then
-        depth = 1
-    end
-    local str = "{\n"
-    local indents = str.rep("    ", depth)
-
-    for k, v in pairs(tbl) do
-        
-        if depth > MAX_DEPTH then
-            str = str .. indents .. k .. " = \"...\",\n"
-            break
-        end
-        if type(v) == "table" then
-            str = str .. indents .. k .. " = " .. table.tostring(v, depth + 1) .. ",\n"
-        elseif type(v) == "string" then
-            str = str .. indents .. k .. " = [[\n" .. v .. "]],\n"
-        else
-            str = str .. indents .. k .. " = " .. tostring(v) .. ",\n"
-        end
-    end
-    
-    str = str .. "}"
-    return str
-end

@@ -9,24 +9,17 @@ local function init()
         
         }
     }
-    local Misery = SMODS.Joker:new(
-        "Misery",
-        tpmakeID("misery"),
+    local Misery = SMODS.Joker(
         {
-            extra = {Xmult = 0.5}
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        CURSERARITY,
-        0,
-        true,
-        true,
-        false,
-        true,
-        "Misery"
+            name = "Misery",
+            key = ("misery"),
+            loc_txt = loc_text,
+            rarity = CURSERARITY, -- rarity
+            cost = 6, -- cost
+            config = {
+                extra = {Xmult = 0.5}
+            }
+        }
     )
     
     Tetrapak.Jokers["j_" .. tpmakeID("misery")] = Misery
@@ -36,7 +29,7 @@ end
 
 local function load_effect()
 
-    SMODS.Jokers["j_" .. tpmakeID("misery")].calculate = function(card, context)
+    SMODS.Centers[tpjokerSlug("misery")].calculate = function(card, context)
         if context.cardarea == G.jokers then
             if SMODS.end_calculate_context(context) and not context.blueprint then
                 return {
@@ -49,16 +42,16 @@ local function load_effect()
         end
     end
 
-    SMODS.Jokers["j_" .. tpmakeID("misery")].set_ability = function(card, initial, delay_sprites)
+    SMODS.Centers[tpjokerSlug("misery")].set_ability = function(card, initial, delay_sprites)
         card.pinned_right = true
     end
 
-    SMODS.Jokers["j_" .. tpmakeID("misery")].set_badges = function (card, badges)
+    SMODS.Centers[tpjokerSlug("misery")].set_badges = function (card, badges)
         badges[#badges+1] = create_badge('Pinned Right', HEX('77FF77'), HEX('000000'), 1.2)
     end
 
 
-    SMODS.Jokers["j_" .. tpmakeID("misery")].loc_def = function(card)
+    SMODS.Centers[tpjokerSlug("misery")].loc_def = function(card)
         return {
             card.ability.extra.Xmult
         }

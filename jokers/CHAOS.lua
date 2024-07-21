@@ -7,28 +7,19 @@ local function init()
             "Everything can be anything!"
         }
     }
-
-    local chaosjoker = SMODS.Joker:new(
-        "Chaos Joker",
-        tpmakeID("chaos_joker"),
-        {
-            
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        3, -- rarity
-        7, -- cost
-        true,
-        true,
-        true,
-        true,
-        "Chaos Joker"
-    )
-    
     -- im gonna leave this here for now, but i think this should never be unleashed
+
+    -- local chaosjoker = SMODS.Joker(
+    --     {
+    --         name = "Chaos Joker",
+    --         key = tpmakeID("chaos_joker"),
+    --         loc_txt = loc_text,
+    --         rarity = 4, -- rarity
+    --         cost = 6, -- cost
+    --     }
+    -- )
+    
+    
 
     --Tetrapak.Jokers["j_" .. tpmakeID("chaos_joker")] = chaosjoker
     

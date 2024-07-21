@@ -8,24 +8,14 @@ local function init()
             "Does not give +1 joker slot",
         }
     }
-    local Bound = SMODS.Joker:new(
-        "Bound",
-        tpmakeID("bound"),
+    local Bound = SMODS.Joker(
         {
-        },
-        {
-            x = 0,
-            y = 0
-        },
-        loc_text,
-        CURSERARITY,
-        0,
-        true,
-        true,
-        false,
-        true,
-        "Bound"
-        
+            name = "Bound",
+            key = ("bound"),
+            loc_txt = loc_text,
+            rarity = CURSERARITY, -- rarity
+            cost = 4, -- cost
+        }
     )
     
     Tetrapak.Jokers["j_" .. tpmakeID("bound")] = Bound
