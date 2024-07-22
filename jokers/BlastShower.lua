@@ -19,7 +19,9 @@ local function init()
                 extra = {
                     Removes = 1
                 }
-            }
+            },
+            -- make  atlas = key
+            
         }
 
     )
@@ -33,7 +35,7 @@ local function load_effect()
 
     print(tpjokerSlug("blast_shower"))
     SMODS.Centers[tpjokerSlug("blast_shower")].calculate = function(card, context)
-        if card.ability.name == "Blast Shower" and context.selling_self then
+        if  context.selling_self then
     
             local eligible_strength_jokers = {}
             for k, v in pairs(G.jokers.cards) do

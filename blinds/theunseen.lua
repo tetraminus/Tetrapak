@@ -9,11 +9,16 @@ local function init()
 
         }
     }
-
+B
     local data = {
         name = "The Unseen",
         key = "theunseen",
         loc_txt = loc_text,
+        boss = {
+            min = 1,
+            max = 4
+        },
+        atlas = "tetrapak_theunseen"
         
         
     }

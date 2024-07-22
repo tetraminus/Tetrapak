@@ -3,7 +3,7 @@
 local function init()
     local mod = SMODS.current_mod
 
-    local aposoul = SMODS.Sprite(
+    local aposoul = SMODS.Atlas(
 
         -- tpconsumableSlug("ApoSoul"),
         -- mod.path,

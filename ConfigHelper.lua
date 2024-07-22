@@ -6,15 +6,15 @@ function Load_Config()
     local mod = SMODS.current_mod
     
  
-    if not love.filesystem.getInfo(mod.path.."config.lua") then
+    if not NFS.getInfo(mod.path.."config.lua") then
         print("No config file found for Tetrapak, creating")
-        local file = love.filesystem.newFile(mod.path.."config.lua")
+        local file = NFS.newFile(mod.path.."config.lua")
         local allcardnames = {}
-        for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."jokers")) do
+        for k, v in pairs(NFS.getDirectoryItems(mod.path.."jokers")) do
             table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
         end
 
-        for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."spectrals")) do
+        for k, v in pairs(NFS.getDirectoryItems(mod.path.."spectrals")) do
             table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
         end
 
@@ -27,7 +27,7 @@ function Load_Config()
     end
 
     local config = nil
-    local success, configLoader = pcall(love.filesystem.load, mod.path.."config.lua")
+    local success, configLoader = pcall(NFS.load, mod.path.."config.lua")
     if success then
         local success, loadedconfig = pcall(configLoader)
         if not success then
@@ -44,19 +44,19 @@ function Load_Config()
 
     -- fill in Enabled with any new cards that have no entry
     local allcardnames = {}
-    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."jokers")) do
+    for k, v in pairs(NFS.getDirectoryItems(mod.path.."jokers")) do
         table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
     end
 
-    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."spectrals")) do
+    for k, v in pairs(NFS.getDirectoryItems(mod.path.."spectrals")) do
         table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
     end
 
-    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."vouchers")) do
+    for k, v in pairs(NFS.getDirectoryItems(mod.path.."vouchers")) do
         table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
     end
 
-    for k, v in pairs(love.filesystem.getDirectoryItems(mod.path.."blinds")) do
+    for k, v in pairs(NFS.getDirectoryItems(mod.path.."blinds")) do
         table.insert(allcardnames, string.sub(v, 1, string.len(v) - 4):lower())
     end
 
@@ -77,7 +77,7 @@ function Save_Config(conf)
         conf = G.TETRAPAK_Config
     end
     local mod = SMODS.current_mod
-    local file = love.filesystem.newFile(mod.path.."config.lua")
+    local file = NFS.newFile(mod.path.."config.lua")
     file:open("w")
     file:write("return " .. table.tostring(conf))
     file:close()

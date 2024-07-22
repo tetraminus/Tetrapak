@@ -105,7 +105,7 @@ end
 local function loadSprites(directory, folder, slugFunction, sprites)
     
     local mod = SMODS.current_mod
-    local spritesFiles = love.filesystem.getDirectoryItems(directory)
+    local spritesFiles = NFS.getDirectoryItems(directory)
 
 
     
@@ -113,17 +113,21 @@ local function loadSprites(directory, folder, slugFunction, sprites)
     for k, file in pairs(spritesFiles) do
         if string.find(file, ".png") then
             name = string.sub(file, 1, string.len(file) - 4)
-            
-            local sprite = SMODS.Sprite({
-                key = (name),
-                path = folder .. "/" .. file,
-                px=71,
-                py=95,
-                atlas = "ASSET_ATLAS"
-            })
+            print("loading sprite: " .. name)
+            local sprite = SMODS.Atlas(
+                {
+                    key = (name),
+                    path = folder .. "/" .. file,
+                    px=71,
+                    py=95,
+                    
+                }
+            )
+
+            G.ASSET_ATLAS[name] = {}
 
             table.insert(sprites, sprite)
-            print("Loaded sprite: " .. file)
+            
         end
           
     end
@@ -133,12 +137,7 @@ local function Load_atlas()
 
     local mod = SMODS.current_mod
     local sprites = {}
-    for k, v in pairs(Tetrapak.Registry) do
-        for k, v in pairs(v) do
-            print(v.atlas)
-            --v.atlas = "ASSET_ATLAS"
-        end
-    end
+    
 
     
     -- jokers
@@ -152,27 +151,21 @@ local function Load_atlas()
 
 
     -- blinds
-    local spritesFiles = love.filesystem.getDirectoryItems(mod.path.."assets/1x/blinds")
+    local spritesFiles = NFS.getDirectoryItems(mod.path.."assets/1x/blinds")
 
     for k, file in pairs(spritesFiles) do
         if string.find(file, ".png") then
 
             name = string.sub(file, 1, string.len(file) - 4)
 
-            local sprite = SMODS.Sprite(--{
-                -- tpblindSlug(name),
-                -- mod.path,
-                -- "blinds/" .. file,
-                -- 34,
-                -- 34,
-                -- "animation_atli",
-                -- 21}
+            local sprite = SMODS.Atlas(--{
+               
                 {
-                key = tpblindSlug(name),
+                key = name,
                 path = "blinds/" .. file,
                 px=34,
                 py=34,
-                atlas = "ASSET_ATLAS"
+                
             }
             )
 
@@ -181,8 +174,26 @@ local function Load_atlas()
 
         end
     end
+    
+    print(table.tostring(G.ASSET_ATLAS))
+    for k, v in pairs(Tetrapak.Registry) do
+        
+        for k, v in pairs(v) do
+            print("loading atlas: " .. v.atlas)
+            local atlasname = v.key
+            -- remove the prefix by the _
+            atlasname = string.sub(atlasname, string.find(atlasname, "_") + 1)
+            
 
+            if v.atlas == "Temp" then
+                atlasname = "Jokers"
+            end
 
+            v.atlas = atlasname
+            print(v.atlas)
+
+        end
+    end
 
     for k, sprite in pairs(sprites) do
         --sprite:register()
@@ -197,8 +208,8 @@ end
     -- load stuff
     
 
-    love.filesystem.load(modpath.."ConfigHelper.lua")()
-    love.filesystem.load(modpath.."WebGenerator.lua")()
+    NFS.load(modpath.."ConfigHelper.lua")()
+    NFS.load(modpath.."WebGenerator.lua")()
 
 
 
@@ -248,38 +259,41 @@ end
     local alldefs = {}
 
     --load all files in the jokers folder
-    local jokerFiles = love.filesystem.getDirectoryItems(mod.path.."jokers")
+    
+    local jokerFiles = NFS.getDirectoryItems(mod.path.."jokers")
+    
     local jokerdefs = {}
     for k, file in pairs(jokerFiles) do
         lowercasename = string.sub(file, 1, string.len(file) - 4):lower()
-
+        print("checking " .. lowercasename)
         if string.find(file, ".lua") and G.TETRAPAK_Config.Enabled[lowercasename] then
-            local joker = love.filesystem.load(mod.path.."jokers/"..file)()
-
+            print("loading joker: " .. file)
+            local joker = NFS.load(mod.path.."jokers\\"..file)()
+            
             table.insert(jokerdefs, joker)
 
         end
     end
-
+    print(table.tostring(jokerdefs))
     table.insert(alldefs, jokerdefs)
 
     -- load all files in the spectrals folder
-    local spectralFiles = love.filesystem.getDirectoryItems(mod.path.."spectrals")
+    local spectralFiles = NFS.getDirectoryItems(mod.path.."spectrals")
     local spectraldefs = {}
     for k, file in pairs(spectralFiles) do
         if string.find(file, ".lua") and G.TETRAPAK_Config.Enabled[string.sub(file, 1, string.len(file) - 4):lower()] then
-            local spectral = love.filesystem.load(mod.path.."spectrals/"..file)()
+            local spectral = NFS.load(mod.path.."spectrals/"..file)()
             table.insert(spectraldefs, spectral)
         end
     end
     
     table.insert(alldefs, spectraldefs)
     -- load all files in the vouchers folder
-    local voucherFiles = love.filesystem.getDirectoryItems(mod.path.."vouchers")
+    local voucherFiles = NFS.getDirectoryItems(mod.path.."vouchers")
     local voucherdefs = {}
     for k, file in pairs(voucherFiles) do
         if string.find(file, ".lua") and G.TETRAPAK_Config.Enabled[string.sub(file, 1, string.len(file) - 4):lower()] then
-            local voucher = love.filesystem.load(mod.path.."vouchers/"..file)()
+            local voucher = NFS.load(mod.path.."vouchers/"..file)()
             table.insert(voucherdefs, voucher)
         end
     end
@@ -298,11 +312,11 @@ end
     table.sort(voucherdefs, sort_voucherdefs)
 
     -- load all files in the blinds folder
-    local blindFiles = love.filesystem.getDirectoryItems(mod.path.."blinds")
+    local blindFiles = NFS.getDirectoryItems(mod.path.."blinds")
     local blinddefs = {}
     for k, file in pairs(blindFiles) do
         if string.find(file, ".lua") and G.TETRAPAK_Config.Enabled[string.sub(file, 1, string.len(file) - 4):lower()] then
-            local blind = love.filesystem.load(mod.path.."blinds/"..file)()
+            local blind = NFS.load(mod.path.."blinds/"..file)()
             table.insert(blinddefs, blind)
         end
     end

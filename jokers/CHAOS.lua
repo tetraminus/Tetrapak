@@ -16,12 +16,13 @@ local function init()
     --         loc_txt = loc_text,
     --         rarity = 4, -- rarity
     --         cost = 6, -- cost
+    --         atlas = "Temp",
     --     }
     -- )
     
     
 
-    --Tetrapak.Jokers["j_" .. tpmakeID("chaos_joker")] = chaosjoker
+    -- Tetrapak.Jokers["j_" .. tpmakeID("chaos_joker")] = chaosjoker
     
 end
 
