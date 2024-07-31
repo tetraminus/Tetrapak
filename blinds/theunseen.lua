@@ -9,7 +9,7 @@ local function init()
 
         }
     }
-B
+
     local data = {
         name = "The Unseen",
         key = "theunseen",
@@ -18,8 +18,8 @@ B
             min = 1,
             max = 4
         },
-        atlas = "tetrapak_theunseen"
-        
+        atlas = "theunseen",
+        boss_colour = HEX('9800A9'),
         
     }
     
@@ -42,7 +42,7 @@ local function load_effect ()
     function Blind:debuff_hand(cards, hand, handname, check)
 
 
-        if self.name == "The Unseen" then
+        if self.name == "The Unseen" and not G.GAME.blind.disabled then
             if check and self.turn == 1 then
                 return true
             end

@@ -71,24 +71,12 @@ function table.tostring(tbl, depth)
     return str
 end
 
-
-local function initRegisterAndLoad(alldefs)
+local function RegisterAndLoad(alldefs)
     
 
-    for k, defs in pairs(alldefs) do
-        for k, def in pairs(defs) do
-            if def.init then
-                def.init()
-            end
-        end
-    end
+    
 
-    Tetrapak.Registry = {
-        Jokers = Tetrapak.Jokers,
-        Spectrals = Tetrapak.Spectrals,
-        Vouchers = Tetrapak.Vouchers,
-        Blinds = Tetrapak.Blinds
-    }
+    
 
     
 
@@ -117,6 +105,7 @@ local function loadSprites(directory, folder, slugFunction, sprites)
             local sprite = SMODS.Atlas(
                 {
                     key = (name),
+                    raw_key = true,
                     path = folder .. "/" .. file,
                     px=71,
                     py=95,
@@ -135,7 +124,7 @@ end
 
 local function Load_atlas()
 
-    local mod = SMODS.current_mod
+    local mod = SMODS.Mods['tetraminus_tetrapak']
     local sprites = {}
     
 
@@ -154,6 +143,7 @@ local function Load_atlas()
     local spritesFiles = NFS.getDirectoryItems(mod.path.."assets/1x/blinds")
 
     for k, file in pairs(spritesFiles) do
+        print("checking " .. file)
         if string.find(file, ".png") then
 
             name = string.sub(file, 1, string.len(file) - 4)
@@ -162,13 +152,18 @@ local function Load_atlas()
                
                 {
                 key = name,
+                raw_key = true,
                 path = "blinds/" .. file,
                 px=34,
                 py=34,
+                atlas_table = "ANIMATION_ATLAS",
+                frames = 12
                 
             }
             )
 
+            G.ANIMATION_ATLAS[name] = {}
+            
             table.insert(sprites, sprite)
             print("Loaded sprite: " .. file)
 
@@ -179,13 +174,13 @@ local function Load_atlas()
     for k, v in pairs(Tetrapak.Registry) do
         
         for k, v in pairs(v) do
-            print("loading atlas: " .. v.atlas)
             local atlasname = v.key
-            -- remove the prefix by the _
+            -- remove the prefix by  after the second iinstance of  _
+            atlasname = string.sub(atlasname, string.find(atlasname, "_") + 1)
             atlasname = string.sub(atlasname, string.find(atlasname, "_") + 1)
             
 
-            if v.atlas == "Temp" then
+            if v.placeholders then
                 atlasname = "Jokers"
             end
 
@@ -268,7 +263,7 @@ end
         print("checking " .. lowercasename)
         if string.find(file, ".lua") and G.TETRAPAK_Config.Enabled[lowercasename] then
             print("loading joker: " .. file)
-            local joker = NFS.load(mod.path.."jokers\\"..file)()
+            local joker = NFS.load(mod.path.."jokers/"..file)()
             
             table.insert(jokerdefs, joker)
 
@@ -330,10 +325,31 @@ end
     --G.DEBUG = true
     _RELEASE_MODE = false
 
-    
+    for k, defs in pairs(alldefs) do
+        for k, def in pairs(defs) do
+            if def.init then
+                def.init()
+            end
+        end
+    end
 
-    initRegisterAndLoad(alldefs)
+    Tetrapak.Registry = {
+        Jokers = Tetrapak.Jokers,
+        Spectrals = Tetrapak.Spectrals,
+        Vouchers = Tetrapak.Vouchers,
+        Blinds = Tetrapak.Blinds
+    }
     Load_atlas()
+    injectitemsold = SMODS.injectItems
+    function SMODS.injectItems()
+        
+        injectitemsold()
+        
+        RegisterAndLoad(alldefs)
+        
+       
+    end
+    
     
     
 

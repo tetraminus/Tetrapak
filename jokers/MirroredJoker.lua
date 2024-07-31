@@ -26,8 +26,10 @@ end
 
 local function load_effect()
 
-    SMODS.Centers[tpjokerSlug("mirrored_joker")].calculate = function(card, context)
-        if context.cardarea == G.jokers and SMODS.end_calculate_context(context) then
+    
+
+    SMODS.Centers[tpjokerSlug("mirrored_joker")].calculate = function(self, card, context)
+        if context.cardarea == G.jokers and context.joker_main then
             local currChips =  hand_chips
             local currMult = mult
 

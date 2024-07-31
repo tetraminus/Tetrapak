@@ -7,7 +7,7 @@
             
             "problemMatcher": [],
             "osx": {
-                "command": "${HOME}/Library/\"Application Support\"/Steam/steamapps/common/Balatro/RunLovely.sh"
+                "command": "${HOME}/Library/\"Application Support\"/Steam/steamapps/common/Balatro/run_lovely.sh"
             },
             "windows": {
                 // 

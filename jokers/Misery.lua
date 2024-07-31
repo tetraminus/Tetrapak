@@ -29,9 +29,9 @@ end
 
 local function load_effect()
 
-    SMODS.Centers[tpjokerSlug("misery")].calculate = function(card, context)
+    SMODS.Centers[tpjokerSlug("misery")].calculate = function(self, card, context)
         if context.cardarea == G.jokers then
-            if SMODS.end_calculate_context(context) and not context.blueprint then
+            if context.joker_main and not context.blueprint then
                 return {
                     message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
                     Xmult_mod = card.ability.extra.Xmult
@@ -42,18 +42,21 @@ local function load_effect()
         end
     end
 
-    SMODS.Centers[tpjokerSlug("misery")].set_ability = function(card, initial, delay_sprites)
+    SMODS.Centers[tpjokerSlug("misery")].set_ability = function(self, card, initial, delay_sprites)
         card.pinned_right = true
     end
 
-    SMODS.Centers[tpjokerSlug("misery")].set_badges = function (card, badges)
+    SMODS.Centers[tpjokerSlug("misery")].set_badges = function (self, card, badges)
         badges[#badges+1] = create_badge('Pinned Right', HEX('77FF77'), HEX('000000'), 1.2)
     end
+    
 
-
-    SMODS.Centers[tpjokerSlug("misery")].loc_def = function(card)
+    SMODS.Centers[tpjokerSlug("misery")].loc_vars = function(self, _info, card)
         return {
-            card.ability.extra.Xmult
+            vars ={
+                card.ability.extra.Xmult
+            }
+            
         }
     end
     

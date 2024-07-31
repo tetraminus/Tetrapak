@@ -27,7 +27,7 @@ local function load_effect()
 
     
 
-    SMODS.Centers[tpjokerSlug("echoing_joker")].loc_def = function (self, player)
+    SMODS.Centers[tpjokerSlug("echoing_joker")].loc_vars = function (self, info_queue, card)
         local var
         if G.Game and G.GAME.last_hand_played then
             var = G.GAME.last_hand_played
@@ -35,9 +35,9 @@ local function load_effect()
            var =  "None"
         end
         return {
-            
+            vars ={
             var
-     
+            }
         }
     end
 

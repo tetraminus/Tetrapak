@@ -30,8 +30,8 @@ end
 
 local function load_effect()
 
-    SMODS.Centers[tpjokerSlug("swordswallower")].calculate = function(card, context)
-        if context.cardarea == G.jokers and SMODS.end_calculate_context(context) then
+    SMODS.Centers[tpjokerSlug("swordswallower")].calculate = function(self, card, context)
+        if context.cardarea == G.jokers and context.joker_main then
             local num_curses = 0
             for k,v in pairs(G.jokers.cards) do
                 if v.config.center.rarity == CURSERARITY then
@@ -48,7 +48,7 @@ local function load_effect()
         end
     end
 
-    SMODS.Centers[tpjokerSlug("swordswallower")].loc_def = function(card)
+    SMODS.Centers[tpjokerSlug("swordswallower")].loc_vars = function(self, _info,card)
         local num_curses = 0
         if G.jokers then
             for k,v in pairs(G.jokers.cards) do
@@ -61,7 +61,9 @@ local function load_effect()
         local total = card.ability.extra.Xmult and 1 + (card.ability.extra.Xmult * num_curses) or 1
         
         return {
-            total
+            vars ={
+                total
+            }
         }
     end
 

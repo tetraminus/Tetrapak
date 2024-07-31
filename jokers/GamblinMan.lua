@@ -24,10 +24,12 @@ local function init()
                     max = 2
                 }
             },
-
-
+            
+            
         }
     )
+
+
         
 end
 
@@ -59,13 +61,15 @@ local function load_effect()
         original_ease_dollars(mod, instant)
     end
 
-    SMODS.Centers[tpjokerSlug("gamblin_man")].loc_def =function (card)
-        
+    SMODS.Centers[tpjokerSlug("gamblin_man")].loc_vars = function (self, info_queue, card)
         return {
+            vars ={
             card.ability.extra.min,
             card.ability.extra.max
+            }
         }
     end
+    
     
 end
 

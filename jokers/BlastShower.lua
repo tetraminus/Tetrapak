@@ -32,9 +32,7 @@ local function init()
 end
 
 local function load_effect()
-
-    print(tpjokerSlug("blast_shower"))
-    SMODS.Centers[tpjokerSlug("blast_shower")].calculate = function(card, context)
+    SMODS.Centers[tpjokerSlug("blast_shower")].calculate = function(self, card, context)
         if  context.selling_self then
     
             local eligible_strength_jokers = {}

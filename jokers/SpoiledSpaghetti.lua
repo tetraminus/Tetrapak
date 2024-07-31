@@ -29,7 +29,7 @@ end
 
 local function load_effect()
 
-    SMODS.Centers[tpjokerSlug("spoiled_spaghetti")].calculate = function(card, context)
+    SMODS.Centers[tpjokerSlug("spoiled_spaghetti")].calculate = function(self, card, context)
         if context.end_of_round and not context.blueprint and not (context.individual or context.repetition) then
             card.ability.mult = card.ability.mult - 5
         
@@ -39,7 +39,7 @@ local function load_effect()
         end
 
         if context.cardarea == G.jokers then
-            if SMODS.end_calculate_context(context) then
+            if context.joker_main then
                 return {
                     message = localize{type='variable',key='a_mult_minus',vars={card.ability.mult}},
                     mult_mod = card.ability.mult
@@ -53,12 +53,15 @@ local function load_effect()
 
 
 
-    SMODS.Centers[tpjokerSlug("spoiled_spaghetti")].loc_def = function(card)
+    SMODS.Centers[tpjokerSlug("spoiled_spaghetti")].loc_vars = function(self, _info,card)
         if card.ability.mult == nil then
             card.ability.mult = 0
         end
         return {
-            card.ability.mult
+            vars ={
+                card.ability.mult
+            }
+            
         }
     end
     
