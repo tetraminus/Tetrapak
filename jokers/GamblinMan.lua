@@ -39,10 +39,10 @@ local function load_effect()
     -- based on Fiendish Joker from Bunco
 
     function ease_dollars(mod, instant)
-
+        print("ease_dollars", mod, instant)
         if G.jokers ~= nil then
             for _, v in ipairs(G.jokers.cards) do
-                if v.ability.name == "Gamblin Man" and not v.debuff and mod > 0 then
+                if v.ability.name == "Gamblin' Man" and not v.debuff and mod > 0 then
                     local mult = pseudorandom("gamblin_man") -- 0 - 1
                     mult = v.ability.extra.min + mult * (v.ability.extra.max - v.ability.extra.min)
 
