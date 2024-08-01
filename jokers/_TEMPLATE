@@ -16,7 +16,8 @@ local function init()
         }
     )
     
-    Tetrapak.Jokers["j_" .. tpmakeID("name")] = Joker
+    -- uncomment to add the joker image
+    -- Tetrapak.Jokers["j_" .. tpmakeID("name")] = Joker
     
     
 end

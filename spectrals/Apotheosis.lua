@@ -87,7 +87,6 @@ local function load_effect()
         local set_sprites_ref = Card.set_sprites
         function Card:set_sprites(_center, _front)
             set_sprites_ref(self, _center, _front)
-            print(self.config.center.name)
             if self.config.center.name == "Apotheosis" then
                 
                 self.children.floating_sprite = Sprite(self.T.x-26, self.T.y, self.T.w, self.T.h, G.ASSET_ATLAS["tetrapak_ApoSoul"], self.config.center.soul_pos)
