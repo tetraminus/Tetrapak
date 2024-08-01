@@ -5,7 +5,7 @@ local function init()
         name = "Spoiled Spaghetti",
         text = {
             "{C:mult}#1# mult.{}",
-            "Loses 5 {C:mult}mult{} per turn."
+            "Loses {C:mult}#2# mult{} per turn."
         
         }
     }
@@ -17,7 +17,10 @@ local function init()
             rarity = CURSERARITY, -- rarity
             cost = 6, -- cost
             config = {
-                extra = {mult = 0}
+                extra = {
+                    mult = 0,
+                    mult_loss = 5
+                }
             }
         }
     )
@@ -31,18 +34,18 @@ local function load_effect()
 
     SMODS.Centers[tpjokerSlug("spoiled_spaghetti")].calculate = function(self, card, context)
         if context.end_of_round and not context.blueprint and not (context.individual or context.repetition) then
-            card.ability.mult = card.ability.mult - 5
+            card.ability.extra.mult = card.ability.extra.mult - card.ability.extra.mult_loss
         
             return { 
-                message = localize{type='variable',key='a_mult_minus',vars={5}},
+                message = localize{type='variable',key='a_mult_minus',vars={card.ability.extra.mult_loss}},
             }
         end
 
         if context.cardarea == G.jokers then
             if context.joker_main then
                 return {
-                    message = localize{type='variable',key='a_mult_minus',vars={card.ability.mult}},
-                    mult_mod = card.ability.mult
+                    message = localize{type='variable',key='a_mult_minus',vars={card.ability.extra.mult}},
+                    mult_mod = card.ability.extra.mult
                 }
             end
 
@@ -54,12 +57,13 @@ local function load_effect()
 
 
     SMODS.Centers[tpjokerSlug("spoiled_spaghetti")].loc_vars = function(self, _info,card)
-        if card.ability.mult == nil then
-            card.ability.mult = 0
+        if card.ability.extra.mult == nil then
+            card.ability.extra.mult = 0
         end
         return {
             vars ={
-                card.ability.mult
+                card.ability.extra.mult,
+                card.ability.extra.mult_loss
             }
             
         }
