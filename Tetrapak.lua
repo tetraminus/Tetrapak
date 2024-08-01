@@ -153,7 +153,7 @@ local function Load_atlas()
                 {
                 key = name,
                 raw_key = true,
-                path = "blinds/" .. file,
+                path = "blinds/" .. file, 
                 px=34,
                 py=34,
                 atlas_table = "ANIMATION_ATLAS",
@@ -375,14 +375,12 @@ end
     end
 
     local remove_from_deck_ref = Card.remove_from_deck
-    function Card:remove_from_deck(from_debuff)
-        remove_from_deck_ref(self, from_debuff)
-
-        
+    function Card.remove_from_deck(self, from_debuff)
+  
         if self.config.center.rarity == CURSERARITY and (not from_debuff)  and self.added_to_deck and self.ability.name ~= "Bound" then
             G.jokers.config.card_limit = G.jokers.config.card_limit - 1
         end
-        return 
+        remove_from_deck_ref(self, from_debuff)
     end
     -- add curse tooltips
     for k, v in pairs(SMODS.Centers) do
@@ -405,6 +403,16 @@ end
         WebGenerator:generateWeb()
     end 
 
+
+    -- load challenges
+    local challengeFiles = NFS.getDirectoryItems(mod.path.."challenges")
+    for k, file in pairs(challengeFiles) do
+        if string.find(file, ".lua") then
+            NFS.load(mod.path.."challenges/"..file)()
+            
+            
+        end
+    end
 
 
 

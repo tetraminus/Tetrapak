@@ -30,7 +30,7 @@ end
 
 local function load_effect()
     
-        SMODS.Centers[tpconsumableSlug("cleanse")].use = function(card, area, copier)
+        SMODS.Centers[tpconsumableSlug("cleanse")].use = function(self, card, area, copier)
             local eligible_strength_jokers = {}
             for k, v in pairs(G.jokers.cards) do
                 if v.ability.set == 'Joker' and v.config.center.rarity == CURSERARITY then
@@ -48,7 +48,7 @@ local function load_effect()
             end
         end
 
-        SMODS.Centers[tpconsumableSlug("cleanse")].can_use = function(card)
+        SMODS.Centers[tpconsumableSlug("cleanse")].can_use = function(self, card)
             local eligible_strength_jokers = {}
             for k, v in pairs(G.jokers.cards) do
                 if v.ability.set == 'Joker' and v.config.center.rarity == CURSERARITY then
@@ -62,9 +62,12 @@ local function load_effect()
             return #eligible_strength_jokers > 0
         end
 
-        SMODS.Centers[tpconsumableSlug("cleanse")].loc_def = function(center, info)
+        SMODS.Centers[tpconsumableSlug("cleanse")].loc_vars = function(self, info_queue, card)
             return {
-                center.config.extra.Removes
+                vars = {
+                    card.ability.extra.Removes
+                },
+                
             }
         end
 

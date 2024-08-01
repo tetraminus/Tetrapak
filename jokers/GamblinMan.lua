@@ -28,7 +28,7 @@ local function init()
             
         }
     )
-
+    Tetrapak.Jokers[tpjokerSlug("gamblin_man")] = GamblinMan
 
         
 end

@@ -31,7 +31,7 @@ local function load_effect()
 
             local jokers = G.jokers.cards
             local consumables = G.consumeables.cards
-            local num_jokers = #jokers
+            local num_jokers = #jokers - 1 -- don't reroll the big red button
             local legendaries = 0
             for k, v in pairs(jokers) do
                 print(v.config.center.rarity)
@@ -39,8 +39,13 @@ local function load_effect()
                     legendaries = legendaries + 1
                     num_jokers = num_jokers - 1
                 end
+            if (not v.ability.eternal) then
                 v:start_dissolve()
+            else
+               num_jokers = num_jokers - 1
+
             end
+        end
             self:start_dissolve()
 
             

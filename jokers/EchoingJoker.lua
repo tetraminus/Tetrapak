@@ -29,7 +29,7 @@ local function load_effect()
 
     SMODS.Centers[tpjokerSlug("echoing_joker")].loc_vars = function (self, info_queue, card)
         local var
-        if G.Game and G.GAME.last_hand_played then
+        if G.GAME and G.GAME.last_hand_played then
             var = G.GAME.last_hand_played
         else
            var =  "None"
@@ -58,7 +58,7 @@ local function load_effect()
                     num = num + 1
                 end
             end
-            if num == 2 then
+            if num == 1 then
                 hand[G.GAME.last_hand_played] = hand["High Card"]
             end
 

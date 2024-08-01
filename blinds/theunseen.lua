@@ -33,35 +33,22 @@ end
 
 local function load_effect ()
     
-    SMODS.Blinds[tpblindSlug("theunseen")].set_blind = function (blind, reset, silent)
-        blind.turn = 0
+    SMODS.Blinds[tpblindSlug("theunseen")].set_blind = function (self)
+       self.turn = 0
     end
 
-    local debuff_hand_ref = Blind.debuff_hand
+    SMODS.Blinds[tpblindSlug("theunseen")].press_play = function (self)
 
-    function Blind:debuff_hand(cards, hand, handname, check)
-
-
-        if self.name == "The Unseen" and not G.GAME.blind.disabled then
-            if check and self.turn == 1 then
-                return true
-            end
-
-            if not check then
-                self.turn = self.turn + 1
-                if self.turn == 2 then
-                    local curse = create_card('Joker', G.jokers, nil, CURSERARITY, nil, nil,nil, 'spi')
-                    curse:add_to_deck()
-                    G.jokers:emplace(curse)
-                    curse:start_materialize()
-                end
-            end
-        end
-
-        return debuff_hand_ref(self, cards, hand, handname, check)
+        
+        self.turn = self.turn + 1
+        if self.turn == 2 then
+            local curse = create_card('Joker', G.jokers, nil, CURSERARITY, nil, nil,nil, 'spi')
+            curse:add_to_deck()
+            G.jokers:emplace(curse)
+            curse:start_materialize()
+         end
         
     end
-
     
   
 

@@ -9,6 +9,7 @@ local function init()
     local data = {
         name = "DemonPrison",
         key = "demonprison",
+        requires = {tpvoucherSlug("emptycage")},
         loc_txt = loc_text,
     }
 
