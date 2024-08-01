@@ -11,7 +11,7 @@ local function toWebRarity(rarity )
     elseif rarity == 4 then
         return "Legendary"
     elseif rarity == CURSERARITY then
-        return "Curse"
+        return "Curse" 
     end
     -- capitalise the first letter
 
@@ -77,6 +77,7 @@ local function CreateWebEntry(center, type)
     entry.name = center.name
     entry.loc_txt = center.loc_txt
     entry.rarity = toWebRarity(center.rarity or type)
+    print("creating web entry for ", center.name)
 
     -- output in format 
     --   {
@@ -103,7 +104,7 @@ local function CreateWebEntry(center, type)
     
     local imgname = center.key
     --remove everything before the generated id, as the image is
-    local toremove = tpmakeID("") -- remove the generated id and all before it
+    local toremove = tpmakeID("tetrapak_") -- remove the generated id and all before it
     imgname = string.sub(imgname, string.find(imgname, toremove) + string.len(toremove))
     
     
@@ -130,6 +131,7 @@ end
 
 
 function WebGenerator:generateWeb()
+    print("Generating web data")
     local entries = {}
     local output = "let data = {\n"
     for k, defs in pairs(Tetrapak.Registry) do
@@ -166,15 +168,23 @@ function WebGenerator:generateWeb()
     local modpath = mod.path
 
     -- create the web folder
-    if not love.filesystem.getInfo(modpath .. "web") then
-        love.filesystem.createDirectory(modpath .. "web")
+    if not NFS.getInfo(modpath .. "web") then
+        NFS.createDirectory(modpath .. "web")
     end
 
-    -- write to file
-    local file = love.filesystem.newFile(modpath .. "web/data.js")
+    -- write to file if it exists, otherwise create it
+    local file = NFS.newFile(modpath .. "web/data.js")
     file:open("w")
     file:write(output)
     file:close()
+    print("Web data generated")
+
+
+    
+
+
+    
+    
 
 
 
