@@ -1,5 +1,3 @@
-
-
 local function init()
     local loc_text = {
         name = "Big Red Button",
@@ -9,21 +7,19 @@ local function init()
     }
     local big_red_button = SMODS.Joker(
         {
-        name = "Big Red Button",
-        key = ("big_red_button"),
-        loc_txt = loc_text,
-        rarity = 2, -- rarity
-        cost = 6, -- cost
+            name = "Big Red Button",
+            key = ("big_red_button"),
+            loc_txt = loc_text,
+            rarity = 2, -- rarity
+            cost = 6,   -- cost
         }
     )
-    
-    
+
+
     Tetrapak.Jokers["j_" .. tpmakeID("big_red_button")] = big_red_button
-    
 end
 
 local function load_effect()
-
     local addcard_ref = Card.add_to_deck
     function Card:add_to_deck(from_debuff)
         if self.ability.name == "Big Red Button" then
@@ -39,21 +35,19 @@ local function load_effect()
                     legendaries = legendaries + 1
                     num_jokers = num_jokers - 1
                 end
-            if (not v.ability.eternal) then
-                v:start_dissolve()
-            else
-               num_jokers = num_jokers - 1
-
+                if (not v.ability.eternal) then
+                    v:start_dissolve()
+                else
+                    num_jokers = num_jokers - 1
+                end
             end
-        end
             self:start_dissolve()
 
-            
+
             local consumable_types = {}
             for k, v in pairs(consumables) do
                 v:start_dissolve()
                 consumable_types[v.ability.set] = true
-    
             end
 
 
@@ -79,17 +73,14 @@ local function load_effect()
                 card:add_to_deck()
                 G.consumeables:emplace(card)
             end
-
-            
         end
-        
-        return addcard_ref(self,from_debuff)
+
+        return addcard_ref(self, from_debuff)
     end
-    
 end
 
 return {
     init = init,
     load_effect = load_effect
-    
+
 }

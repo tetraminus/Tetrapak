@@ -1,0 +1,12 @@
+{
+  "configurations": [
+    {
+      "type": "command",
+      "name": "run",
+      "program": "bash",
+      "args": [
+        "$USER_HOME$/Library/Application Support/Steam/steamapps/common/Balatro/run_lovely.sh"
+      ]
+    }
+  ]
+}

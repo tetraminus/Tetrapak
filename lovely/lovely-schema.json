@@ -1,0 +1,120 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "type": "object",
+  "required": ["manifest", "patches"],
+  "properties": {
+    "manifest": {
+      "type": "object",
+      "title": "Manifest",
+      "description": "The manifest of the patch",
+      "required": ["version", "dump_lua", "priority"],
+      "properties": {
+        "version": {
+          "type": "string",
+          "title": "Version",
+          "description": "The version of the patch",
+          "pattern": "^(\\d+\\.)?(\\d+\\.)?(\\*|\\d+)$"
+        },
+        "dump_lua": {
+          "type": "boolean",
+          "title": "Dump Lua",
+          "description": "Whether to dump Lua",
+          "default": false
+        },
+        "priority": {
+          "type": "integer",
+          "title": "Priority",
+          "description": "The priority of the patch",
+          "default": 0
+        }
+      }
+    },
+    "patches": {
+      "type": "array",
+      "title": "Patches",
+      "description": "The patches to apply",
+      "items": {
+        "type": "object",
+        "title": "Patch",
+        "description": "A patch to apply",
+        "properties": {
+          "pattern": {
+            "type": "object",
+            "title": "Pattern",
+            "description": "Defines a pattern patch",
+            "required": [
+              "target",
+              "pattern",
+              "position",
+              "payload",
+              "match_indent",
+              "overwrite"
+            ],
+            "properties": {
+              "target": {
+                "type": "string",
+                "title": "Target",
+                "description": "The target file to patch, relative to the root of the game",
+                "pattern": "^.+\\.lua$"
+              },
+              "pattern": {
+                "type": "string",
+                "title": "Pattern",
+                "description": "The pattern to match"
+              },
+              "position": {
+                "type": "string",
+                "title": "Position",
+                "description": "The position to insert the patch",
+                "enum": ["before", "after", "at"]
+              },
+              "payload": {
+                "type": "string",
+                "title": "Payload",
+                "description": "The payload to insert"
+              },
+              "match_indent": {
+                "type": "boolean",
+                "title": "Match Indent",
+                "description": "Whether to match the indent of the target",
+                "default": true
+              },
+              "overwrite": {
+                "type": "boolean",
+                "title": "Overwrite",
+                "description": "Whether to overwrite the target",
+                "default": true
+              }
+            }
+          },
+          "module": {
+            "type": "object",
+            "title": "Module",
+            "description": "Defines a module patch",
+            "required": ["source", "before", "name"],
+
+            "properties": {
+              "source": {
+                "type": "string",
+                "title": "Source",
+                "description": "The file to load as a module",
+                "pattern": "^.+\\.lua$"
+              },
+              "before": {
+                "type": "string",
+                "title": "Before",
+                "description": "The file to insert the module before",
+                "pattern": "^.+\\.lua$"
+              },
+              "name": {
+                "type": "string",
+                "title": "Name",
+                "description": "The name of the module"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -14,7 +14,7 @@ local function init()
             key = "fusion_joker",
             loc_txt = loc_text,
             rarity = 3, -- rarity
-            cost = 6, -- cost
+            cost = 6,   -- cost
             config = {
                 extra = {
                     Xmult = 1,
@@ -25,35 +25,33 @@ local function init()
             }
         }
     )
-    
-    
+
+
     Tetrapak.Jokers[tpjokerSlug("fusion_joker")] = fusionjoker
-    
 end
 
 local function load_effect()
-
     SMODS.Centers[tpjokerSlug("fusion_joker")].calculate = function(self, card, context)
         if context.cardarea == G.jokers then
             if context.joker_main then
                 return {
-                    message = localize{type='variable',key='a_xmult',vars={card.ability.extra.Xmult}},
+                    message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.Xmult } },
                     Xmult_mod = card.ability.extra.Xmult
                 }
             end
         end
 
-        if context.store_card_create and not context.blueprint then   
-            if pseudorandom("fusionjoker") < G.GAME.probabilities.normal/card.ability.extra.chance then
+        if context.store_card_create and not context.blueprint then
+            if pseudorandom("fusionjoker") < G.GAME.probabilities.normal / card.ability.extra.chance then
                 local newcard = create_card('Joker', context.area, nil, 0.9, nil, nil, tpjokerSlug("fusion_joker"), 'uta')
                 create_shop_card_ui(newcard, 'Joker', context.area)
                 newcard.states.visible = false
                 newcard:start_materialize()
 
-                newcard.cost = newcard.cost + math.floor(card.ability.extra.fusions/2)
+                newcard.cost = newcard.cost + math.floor(card.ability.extra.fusions / 2)
 
-                card_eval_status_text(card, 'extra', nil, nil, nil, {message = 'Replaced!'})
-                
+                card_eval_status_text(card, 'extra', nil, nil, nil, { message = 'Replaced!' })
+
 
                 return newcard
             end
@@ -64,11 +62,11 @@ local function load_effect()
         local probabilities = G.GAME and G.GAME.probabilities.normal or 1
 
         return {
-            vars ={
-            card.ability.extra.Xmult,
-            probabilities,
-            card.ability.extra.chance,
-            card.ability.extra.fusemult
+            vars = {
+                card.ability.extra.Xmult,
+                probabilities,
+                card.ability.extra.chance,
+                card.ability.extra.fusemult
             }
         }
     end
@@ -93,11 +91,9 @@ local function load_effect()
                 oldFusionJoker.ability.extra.fusions = oldFusionJoker.ability.extra.fusions + 1
                 self:start_dissolve()
             end
-
-            
         end
-        
-        return addcard_ref(self,from_debuff)
+
+        return addcard_ref(self, from_debuff)
     end
 
     local check_space_ref = G.FUNCS.check_for_buy_space
@@ -112,11 +108,10 @@ local function load_effect()
 
         return check_space_ref(card)
     end
-    
 end
 
 return {
     init = init,
     load_effect = load_effect
-    
+
 }

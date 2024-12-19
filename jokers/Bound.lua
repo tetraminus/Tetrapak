@@ -1,6 +1,3 @@
-
-
-
 local function init()
     local loc_text = {
         name = "Bound",
@@ -14,17 +11,15 @@ local function init()
             key = ("bound"),
             loc_txt = loc_text,
             rarity = CURSERARITY, -- rarity
-            cost = 4, -- cost
+            cost = 4,             -- cost
         }
     )
-    
+
     Tetrapak.Jokers["j_" .. tpmakeID("bound")] = Bound
-    
-    
 end
 
 local function load_effect()
-    
+
 end
 
 return {

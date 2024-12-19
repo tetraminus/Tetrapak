@@ -1,0 +1,15 @@
+[
+  {
+    "label": "testBalatro",
+    "type": "shell",
+    "allow_concurrent_runs": false,
+    "problemMatcher": [],
+
+    "command": "${HOME}/Library/\"Application Support\"/Steam/steamapps/common/Balatro/run_lovely.sh",
+
+    "group": {
+      "kind": "build",
+      "isDefault": true
+    }
+  }
+]

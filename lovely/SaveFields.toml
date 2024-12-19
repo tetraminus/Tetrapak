@@ -3,8 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 0
 
-
-
 # save the pinned_right value
 [[patches]]
 [patches.pattern]
@@ -46,5 +44,3 @@ position = "after"
 payload = "self.turn = blindTable.turn"
 match_indent = true
 overwrite = false
-
-

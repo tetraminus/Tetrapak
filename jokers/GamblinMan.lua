@@ -1,15 +1,12 @@
-
-
-
 local function init()
     local loc_text = {
         name = "Gamblin' Man",
-            text = {
-                "Multiply money gain by ",
-                "a random number between {C:attention}#1# {}and {C:attention}#2#.{}"
-            }
+        text = {
+            "Multiply money gain by ",
+            "a random number between {C:attention}#1# {}and {C:attention}#2#.{}"
+        }
     }
-    
+
 
     local GamblinMan = SMODS.Joker(
         {
@@ -17,20 +14,18 @@ local function init()
             key = "gamblin_man",
             loc_txt = loc_text,
             rarity = 1, -- rarity
-            cost = 2, -- cost
+            cost = 2,   -- cost
             config = {
                 extra = {
                     min = -0.5,
                     max = 2
                 }
             },
-            
-            
+
+
         }
     )
     Tetrapak.Jokers[tpjokerSlug("gamblin_man")] = GamblinMan
-
-        
 end
 
 local function load_effect()
@@ -51,9 +46,8 @@ local function load_effect()
 
 
                     mod = math.ceil(mod * mult)
-                    v:juice_up(1.0,0.5)
-                    card_eval_status_text(v, 'extra', nil, nil, nil, {message = tostring(mult) .. 'x'}); 
-                   
+                    v:juice_up(1.0, 0.5)
+                    card_eval_status_text(v, 'extra', nil, nil, nil, { message = tostring(mult) .. 'x' });
                 end
             end
         end
@@ -61,16 +55,14 @@ local function load_effect()
         original_ease_dollars(mod, instant)
     end
 
-    SMODS.Centers[tpjokerSlug("gamblin_man")].loc_vars = function (self, info_queue, card)
+    SMODS.Centers[tpjokerSlug("gamblin_man")].loc_vars = function(self, info_queue, card)
         return {
-            vars ={
-            card.ability.extra.min,
-            card.ability.extra.max
+            vars = {
+                card.ability.extra.min,
+                card.ability.extra.max
             }
         }
     end
-    
-    
 end
 
 return {
